@@ -1,31 +1,37 @@
 package com.kodilla.library.controller;
 
 import com.kodilla.library.domain.BookDto;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @RestController
+@RequestMapping("/v1/library")
 public class BookController {
 
+    @RequestMapping(method = RequestMethod.GET, value = "getBooks")
     public List<BookDto> getBooks() {
         return new ArrayList<>();
     }
 
-    public BookDto getBook(Long id) {
+    @RequestMapping(method = RequestMethod.GET, value = "getBook")
+    public BookDto getBook(@RequestParam Long id) {
         return new BookDto();
     }
 
-    public void deleteBook(Long id) {
+    @RequestMapping(method = RequestMethod.DELETE, value = "deleteBook")
+    public void deleteBook(@RequestParam Long id) {
 
     }
 
-    public BookDto updateBook(BookDto bookDto) {
+    @RequestMapping(method = RequestMethod.PUT, value = "updateBook")
+    public BookDto updateBook(@RequestBody BookDto bookDto) {
         return new BookDto();
     }
 
-    public void createBook(BookDto bookDto) {
+    @RequestMapping(method = RequestMethod.POST, value = "addBook")
+    public void addBook(@RequestBody BookDto bookDto) {
 
     }
 }
