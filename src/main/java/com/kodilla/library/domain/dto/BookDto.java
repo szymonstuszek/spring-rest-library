@@ -2,9 +2,6 @@ package com.kodilla.library.domain.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-
-import java.time.LocalDate;
 import java.util.Date;
 
 @AllArgsConstructor

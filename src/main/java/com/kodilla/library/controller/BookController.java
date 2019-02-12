@@ -32,12 +32,12 @@ public class BookController {
 
     @RequestMapping(method = RequestMethod.DELETE, value = "deleteBook")
     public void deleteBook(@RequestParam Long id) {
-
+        bookService.deleteBook(id);
     }
 
     @RequestMapping(method = RequestMethod.PUT, value = "updateBook")
     public BookDto updateBook(@RequestBody BookDto bookDto) {
-        return new BookDto();
+        return bookMapper.mapToBookDto(bookService.addBook(bookMapper.mapToBook(bookDto)));
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "addBook", consumes = APPLICATION_JSON_VALUE)
