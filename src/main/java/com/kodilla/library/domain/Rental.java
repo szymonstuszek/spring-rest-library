@@ -16,6 +16,7 @@ public class Rental {
     private Long bookCopyId;
     private Long userId;
     private LocalDate dateOfRental;
+    private LocalDate dateOfReturn;
     private LocalDate dueOnDate;
 
     @Id
@@ -40,6 +41,11 @@ public class Rental {
         return dateOfRental;
     }
 
+    @Column(name = "DATE_OF_RETURN")
+    public LocalDate getDateOfReturn() {
+        return dateOfReturn;
+    }
+
     @Column(name = "DUE_ON_DATE")
     public LocalDate getDueOnDate() {
         return dueOnDate;
@@ -59,6 +65,10 @@ public class Rental {
 
     public void setDateOfRental(LocalDate dateOfRental) {
         this.dateOfRental = dateOfRental;
+    }
+
+    public void setDateOfReturn(LocalDate dateOfReturn) {
+        this.dateOfReturn = dateOfReturn;
     }
 
     public void setDueOnDate(LocalDate dueOnDate) {

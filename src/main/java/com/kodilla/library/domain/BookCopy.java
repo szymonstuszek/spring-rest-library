@@ -8,13 +8,12 @@ import javax.persistence.*;
 
 @AllArgsConstructor
 @NoArgsConstructor
+@Entity
 @Table(name = "BOOK_COPIES")
 public class BookCopy {
     private Long id;
     private Long bookId;
-
-    //enum: available, lost, rented
-    private String status;
+    private RentalStatus rentalStatus;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,9 +27,9 @@ public class BookCopy {
         return bookId;
     }
 
-    @Column(name = "STATUS")
-    public String getStatus() {
-        return status;
+    @Column(name = "RENTAL_STATUS")
+    public RentalStatus getRentalStatus() {
+        return rentalStatus;
     }
 
     public void setId(Long id) {
@@ -41,7 +40,7 @@ public class BookCopy {
         this.bookId = bookId;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setRentalStatus(RentalStatus rentalStatus) {
+        this.rentalStatus = rentalStatus;
     }
 }
