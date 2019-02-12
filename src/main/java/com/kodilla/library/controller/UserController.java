@@ -1,6 +1,6 @@
 package com.kodilla.library.controller;
 
-import com.kodilla.library.domain.UserDto;
+import com.kodilla.library.domain.dto.UserDto;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;

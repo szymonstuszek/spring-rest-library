@@ -1,7 +1,7 @@
 package com.kodilla.library.controller;
 
 import com.kodilla.library.domain.Rental;
-import com.kodilla.library.domain.RentalDto;
+import com.kodilla.library.domain.dto.RentalDto;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;

@@ -7,17 +7,25 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.Date;
 
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
 @Table(name = "BOOKS")
 public class Book {
     private Long id;
     private String title;
     private String author;
-    private LocalDate yearOfPublishing;
+    private Date yearOfPublishing;
 
+    public Book(Long id, String title, String author, Date yearOfPublishing) {
+        this.id = id;
+        this.title = title;
+        this.author = author;
+        this.yearOfPublishing = yearOfPublishing;
+    }
+
+    public Book() {
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,7 +45,7 @@ public class Book {
     }
 
     @Column(name = "YEAR_OF_PUBLISHING")
-    public LocalDate getYearOfPublishing() {
+    public Date getYearOfPublishing() {
         return yearOfPublishing;
     }
 
@@ -53,7 +61,7 @@ public class Book {
         this.author = author;
     }
 
-    public void setYearOfPublishing(LocalDate yearOfPublishing) {
+    public void setYearOfPublishing(Date yearOfPublishing) {
         this.yearOfPublishing = yearOfPublishing;
     }
 }
