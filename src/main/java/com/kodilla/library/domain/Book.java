@@ -6,8 +6,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.time.LocalDate;
-import java.util.Date;
 
 @Entity
 @Table(name = "BOOKS")
@@ -15,9 +13,9 @@ public class Book {
     private Long id;
     private String title;
     private String author;
-    private Date yearOfPublishing;
+    private int yearOfPublishing;
 
-    public Book(Long id, String title, String author, Date yearOfPublishing) {
+    public Book(Long id, String title, String author, int yearOfPublishing) {
         this.id = id;
         this.title = title;
         this.author = author;
@@ -45,7 +43,7 @@ public class Book {
     }
 
     @Column(name = "YEAR_OF_PUBLISHING")
-    public Date getYearOfPublishing() {
+    public int getYearOfPublishing() {
         return yearOfPublishing;
     }
 
@@ -61,7 +59,7 @@ public class Book {
         this.author = author;
     }
 
-    public void setYearOfPublishing(Date yearOfPublishing) {
+    public void setYearOfPublishing(int yearOfPublishing) {
         this.yearOfPublishing = yearOfPublishing;
     }
 }

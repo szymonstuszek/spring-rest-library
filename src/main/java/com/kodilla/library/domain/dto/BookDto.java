@@ -10,9 +10,9 @@ public class BookDto {
     private Long id;
     private String title;
     private String author;
-    private Date yearOfPublishing;
+    private int yearOfPublishing;
 
-    public BookDto(String title, String author, Date yearOfPublishing) {
+    public BookDto(String title, String author, int yearOfPublishing) {
         this.title = title;
         this.author = author;
         this.yearOfPublishing = yearOfPublishing;
@@ -32,7 +32,7 @@ public class BookDto {
         return author;
     }
 
-    public Date getYearOfPublishing() {
+    public int getYearOfPublishing() {
         return yearOfPublishing;
     }
 }

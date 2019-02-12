@@ -1,19 +1,23 @@
 package com.kodilla.library.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
 @Table(name = "BOOK_COPIES")
 public class BookCopy {
     private Long id;
     private Long bookId;
     private RentalStatus rentalStatus;
+
+    public BookCopy(Long id, Long bookId, RentalStatus rentalStatus) {
+        this.id = id;
+        this.bookId = bookId;
+        this.rentalStatus = rentalStatus;
+    }
+
+    public BookCopy() {
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,7 +31,8 @@ public class BookCopy {
         return bookId;
     }
 
-    @Column(name = "RENTAL_STATUS")
+    @Column(name = "RENTAL_STATUS", columnDefinition = "enum('AVAILABLE', 'LOST', 'RENTED', 'DAMAGED')")
+    @Enumerated(EnumType.STRING)
     public RentalStatus getRentalStatus() {
         return rentalStatus;
     }
