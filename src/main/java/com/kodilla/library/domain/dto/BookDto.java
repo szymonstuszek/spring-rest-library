@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import java.util.Date;
 
-@AllArgsConstructor
+
 public class BookDto {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Long id;

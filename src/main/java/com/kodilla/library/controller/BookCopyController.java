@@ -22,28 +22,28 @@ public class BookCopyController {
     @Autowired
     private BookCopyMapper bookCopyMapper;
 
-    @RequestMapping(method = RequestMethod.GET, value = "getCopies")
+    @RequestMapping(method = RequestMethod.GET, value = "copies")
     public List<BookCopyDto> getAllBookCopies() {
         return bookCopyMapper.mapToBookCopyDtoList(bookCopyService.getAllBookCopies());
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "getCopy")
+    @RequestMapping(method = RequestMethod.GET, value = "copy")
     public BookCopyDto getBookCopy(@RequestParam Long id) throws BookCopyNotFoundException {
         return bookCopyMapper.mapToBookCopyDto(bookCopyService.getBookCopy(id).orElseThrow(BookCopyNotFoundException::new));
     }
 
-    @RequestMapping(method = RequestMethod.DELETE, value = "deleteCopy")
+    @RequestMapping(method = RequestMethod.DELETE, value = "copy")
     public void deleteBookCopy(@RequestParam Long id) {
         bookCopyService.deleteBookCopy(id);
     }
 
-    @RequestMapping(method = RequestMethod.PUT, value = "updateCopy")
+    @RequestMapping(method = RequestMethod.PUT, value = "copy")
     public BookCopyDto updateBookCopyDto(@RequestBody BookCopyDto bookCopyDto) {
         BookCopy bookCopy = bookCopyService.addBookCopy(bookCopyMapper.mapToBookCopy(bookCopyDto));
         return bookCopyMapper.mapToBookCopyDto(bookCopy);
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "addCopy", consumes = APPLICATION_JSON_VALUE)
+    @RequestMapping(method = RequestMethod.POST, value = "copies", consumes = APPLICATION_JSON_VALUE)
     public void addBookCopyDto(@RequestBody BookCopyDto bookCopyDto) {
         bookCopyService.addBookCopy(bookCopyMapper.mapToBookCopy(bookCopyDto));
     }

@@ -7,8 +7,6 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.time.LocalDate;
 
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
 @Table(name = "RENTALS")
 public class Rental {
@@ -18,6 +16,17 @@ public class Rental {
     private LocalDate dateOfRental;
     private LocalDate dateOfReturn;
     private LocalDate dueOnDate;
+
+    public Rental(Long id, Long bookCopyId, Long userId, LocalDate dateOfRental, LocalDate dateOfReturn, LocalDate dueOnDate) {
+        this.id = id;
+        this.bookCopyId = bookCopyId;
+        this.userId = userId;
+        this.dateOfRental = dateOfRental;
+        this.dateOfReturn = dateOfReturn;
+        this.dueOnDate = dueOnDate;
+    }
+
+    public Rental() {}
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -74,4 +83,6 @@ public class Rental {
     public void setDueOnDate(LocalDate dueOnDate) {
         this.dueOnDate = dueOnDate;
     }
+
+
 }

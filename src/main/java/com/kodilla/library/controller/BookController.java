@@ -20,27 +20,28 @@ public class BookController {
     @Autowired
     private BookMapper bookMapper;
 
-    @RequestMapping(method = RequestMethod.GET, value = "getBooks")
+    @RequestMapping(method = RequestMethod.GET, value = "books")
     public List<BookDto> getBooks() {
         return bookMapper.mapToBookDtoList(bookService.getAllBooks());
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "getBook")
+    @RequestMapping(method = RequestMethod.GET, value = "book")
     public BookDto getBook(@RequestParam Long id) throws BookNotFoundException {
-        return bookMapper.mapToBookDto(bookService.getBook(id).orElseThrow(BookNotFoundException::new));
+        return bookMapper.mapToBookDto(bookService.getBook(id)
+                .orElseThrow(BookNotFoundException::new));
     }
 
-    @RequestMapping(method = RequestMethod.DELETE, value = "deleteBook")
+    @RequestMapping(method = RequestMethod.DELETE, value = "book")
     public void deleteBook(@RequestParam Long id) {
         bookService.deleteBook(id);
     }
 
-    @RequestMapping(method = RequestMethod.PUT, value = "updateBook")
+    @RequestMapping(method = RequestMethod.PUT, value = "book")
     public BookDto updateBook(@RequestBody BookDto bookDto) {
         return bookMapper.mapToBookDto(bookService.addBook(bookMapper.mapToBook(bookDto)));
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "addBook", consumes = APPLICATION_JSON_VALUE)
+    @RequestMapping(method = RequestMethod.POST, value = "books", consumes = APPLICATION_JSON_VALUE)
     public void addBook(@RequestBody BookDto bookDto) {
         bookService.addBook(bookMapper.mapToBook(bookDto));
     }
