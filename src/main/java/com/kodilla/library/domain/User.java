@@ -6,8 +6,6 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.time.LocalDate;
 
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
 @Table(name = "USERS")
 public class User {
@@ -15,6 +13,15 @@ public class User {
     private String firstName;
     private String lastName;
     private LocalDate accountCreationDate;
+
+    public User(Long id, String firstName, String lastName, LocalDate accountCreationDate) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.accountCreationDate = accountCreationDate;
+    }
+
+    public User() {}
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

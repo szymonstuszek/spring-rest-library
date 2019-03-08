@@ -10,7 +10,8 @@ public class BookCopyDto {
     private Long bookId;
     private RentalStatus rentalStatus;
 
-    public BookCopyDto(Long bookId, RentalStatus rentalStatus) {
+    public BookCopyDto(Long id, Long bookId, RentalStatus rentalStatus) {
+        this.id = id;
         this.bookId = bookId;
         this.rentalStatus = rentalStatus;
     }
