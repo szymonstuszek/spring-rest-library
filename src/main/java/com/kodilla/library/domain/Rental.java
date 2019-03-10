@@ -1,8 +1,6 @@
 package com.kodilla.library.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -46,16 +44,19 @@ public class Rental {
     }
 
     @Column(name = "DATE_OF_RENTAL")
+    @JsonFormat(pattern="dd-MM-yyyy")
     public LocalDate getDateOfRental() {
         return dateOfRental;
     }
 
     @Column(name = "DATE_OF_RETURN")
+    @JsonFormat(pattern="dd-MM-yyyy")
     public LocalDate getDateOfReturn() {
         return dateOfReturn;
     }
 
     @Column(name = "DUE_ON_DATE")
+    @JsonFormat(pattern="dd-MM-yyyy")
     public LocalDate getDueOnDate() {
         return dueOnDate;
     }

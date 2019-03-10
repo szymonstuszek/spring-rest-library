@@ -1,5 +1,7 @@
 package com.kodilla.library.domain.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.time.LocalDate;
 
 public class RentalDto {
@@ -45,6 +47,7 @@ public class RentalDto {
         this.userId = userId;
     }
 
+    @JsonFormat(pattern="dd-MM-yyyy")
     public LocalDate getDateOfRental() {
         return dateOfRental;
     }
@@ -53,6 +56,7 @@ public class RentalDto {
         this.dateOfRental = dateOfRental;
     }
 
+    @JsonFormat(pattern="dd-MM-yyyy")
     public LocalDate getDateOfReturn() {
         return dateOfReturn;
     }
@@ -61,6 +65,7 @@ public class RentalDto {
         this.dateOfReturn = dateOfReturn;
     }
 
+    @JsonFormat(pattern="dd-MM-yyyy")
     public LocalDate getDueOnDate() {
         return dueOnDate;
     }

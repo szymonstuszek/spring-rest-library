@@ -1,5 +1,6 @@
 package com.kodilla.library.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
@@ -41,6 +42,7 @@ public class User {
     }
 
     @Column(name = "ACCOUNT_CREATION_DATE")
+    @JsonFormat(pattern="dd-MM-yyyy")
     public LocalDate getAccountCreationDate() {
         return accountCreationDate;
     }
