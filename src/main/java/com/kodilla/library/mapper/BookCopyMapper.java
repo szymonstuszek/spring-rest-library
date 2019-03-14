@@ -13,16 +13,16 @@ public class BookCopyMapper {
     public BookCopy mapToBookCopy(final BookCopyDto bookCopyDto) {
         return new BookCopy(
                 bookCopyDto.getId(),
-                bookCopyDto.getBookId(),
-                bookCopyDto.getRentalStatus()
+                bookCopyDto.getRentalStatus(),
+                bookCopyDto.getBook()
         );
     }
 
     public BookCopyDto mapToBookCopyDto(final BookCopy bookCopy) {
         return new BookCopyDto(
                 bookCopy.getId(),
-                bookCopy.getBookId(),
-                bookCopy.getRentalStatus()
+                bookCopy.getRentalStatus(),
+                bookCopy.getBook()
         );
     }
 
@@ -30,8 +30,8 @@ public class BookCopyMapper {
         return bookCopyList.stream()
                 .map(c -> new BookCopyDto(
                         c.getId(),
-                        c.getBookId(),
-                        c.getRentalStatus())
+                        c.getRentalStatus(),
+                        c.getBook())
                 )
                 .collect(Collectors.toList());
     }

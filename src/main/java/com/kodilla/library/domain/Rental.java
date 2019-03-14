@@ -9,16 +9,14 @@ import java.time.LocalDate;
 @Table(name = "RENTALS")
 public class Rental {
     private Long id;
-    private Long bookCopyId;
-    private Long userId;
     private LocalDate dateOfRental;
     private LocalDate dateOfReturn;
     private LocalDate dueOnDate;
+    private User user;
+    private BookCopy bookCopy;
 
-    public Rental(Long id, Long bookCopyId, Long userId, LocalDate dateOfRental, LocalDate dateOfReturn, LocalDate dueOnDate) {
+    public Rental(Long id, LocalDate dateOfRental, LocalDate dateOfReturn, LocalDate dueOnDate) {
         this.id = id;
-        this.bookCopyId = bookCopyId;
-        this.userId = userId;
         this.dateOfRental = dateOfRental;
         this.dateOfReturn = dateOfReturn;
         this.dueOnDate = dueOnDate;
@@ -31,16 +29,6 @@ public class Rental {
     @Column(name = "ID_RENTAL")
     public Long getId() {
         return id;
-    }
-
-    @Column(name = "BOOK_COPY_ID")
-    public Long getBookCopyId() {
-        return bookCopyId;
-    }
-
-    @Column(name = "USER_ID")
-    public Long getUserId() {
-        return userId;
     }
 
     @Column(name = "DATE_OF_RENTAL")
@@ -61,16 +49,24 @@ public class Rental {
         return dueOnDate;
     }
 
+    @ManyToOne(
+            cascade = CascadeType.ALL
+    )
+    @JoinColumn(name = "USER_ID")
+    public User getUser() {
+        return user;
+    }
+
+    @ManyToOne(
+            cascade = CascadeType.ALL
+    )
+    @JoinColumn(name = "BOOK_COPY_ID")
+    public BookCopy getBookCopy() {
+        return bookCopy;
+    }
+
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public void setBookCopyId(Long bookCopyId) {
-        this.bookCopyId = bookCopyId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
     }
 
     public void setDateOfRental(LocalDate dateOfRental) {
@@ -85,5 +81,11 @@ public class Rental {
         this.dueOnDate = dueOnDate;
     }
 
+    public void setUser(User user) {
+        this.user = user;
+    }
 
+    public void setBookCopy(BookCopy bookCopy) {
+        this.bookCopy = bookCopy;
+    }
 }

@@ -1,18 +1,19 @@
 package com.kodilla.library.domain.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.kodilla.library.domain.Book;
 import com.kodilla.library.domain.RentalStatus;
 
 
 public class BookCopyDto {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Long id;
-    private Long bookId;
+    private Book book;
     private RentalStatus rentalStatus;
 
-    public BookCopyDto(Long id, Long bookId, RentalStatus rentalStatus) {
+    public BookCopyDto(Long id, RentalStatus rentalStatus, Book book) {
         this.id = id;
-        this.bookId = bookId;
+        this.book = book;
         this.rentalStatus = rentalStatus;
     }
 
@@ -24,8 +25,8 @@ public class BookCopyDto {
         return id;
     }
 
-    public Long getBookId() {
-        return bookId;
+    public Book getBook() {
+        return book;
     }
 
     public RentalStatus getRentalStatus() {

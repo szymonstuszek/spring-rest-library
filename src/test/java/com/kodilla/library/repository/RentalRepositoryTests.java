@@ -1,6 +1,9 @@
 package com.kodilla.library.repository;
 
+import com.kodilla.library.domain.BookCopy;
 import com.kodilla.library.domain.Rental;
+import com.kodilla.library.domain.RentalStatus;
+import com.kodilla.library.domain.User;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,17 +19,28 @@ public class RentalRepositoryTests {
     @Autowired
     private RentalRepository rentalRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private BookCopyRepository bookCopyRepository;
+
     @Test
     public void testSaveRental() {
         //Given
+        BookCopy bookCopy = new BookCopy(1L, RentalStatus.AVAILABLE, null);
+        User user = new User(5L, "Greg", "Downhill", LocalDate.now());
         Rental rental = new Rental(
-                5L,
-                5L,
-                5L,
-                LocalDate.of(2000, 1, 1),
-                LocalDate.of(2001, 1, 1),
-                LocalDate.of(2002, 1, 1)
+                            1L,
+                            LocalDate.now(),
+                            null,
+                            LocalDate.of(2019, 3,24)
         );
+        rental.setBookCopy(bookCopy);
+        rental.setUser(user);
+
+        user.getRentals().add(rental);
+        bookCopy.getRentals().add(rental);
 
         //When
         rentalRepository.save(rental);

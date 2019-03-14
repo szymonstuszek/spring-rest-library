@@ -13,8 +13,6 @@ public class RentalMapper {
     public Rental mapToRental(final RentalDto rentalDto) {
         return new Rental(
                 rentalDto.getId(),
-                rentalDto.getBookCopyId(),
-                rentalDto.getUserId(),
                 rentalDto.getDateOfRental(),
                 rentalDto.getDateOfReturn(),
                 rentalDto.getDueOnDate()
@@ -24,8 +22,6 @@ public class RentalMapper {
     public RentalDto mapToRentalDto(final Rental rental) {
         return new RentalDto(
                 rental.getId(),
-                rental.getBookCopyId(),
-                rental.getUserId(),
                 rental.getDateOfRental(),
                 rental.getDateOfReturn(),
                 rental.getDueOnDate()
@@ -36,8 +32,6 @@ public class RentalMapper {
         return rentalList.stream()
                 .map(r -> new RentalDto(
                             r.getId(),
-                            r.getBookCopyId(),
-                            r.getUserId(),
                             r.getDateOfRental(),
                             r.getDateOfReturn(),
                             r.getDueOnDate()

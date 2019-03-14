@@ -6,6 +6,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "BOOKS")
@@ -14,6 +17,7 @@ public class Book {
     private String title;
     private String author;
     private int yearOfPublishing;
+    private List<BookCopy> bookCopies = new ArrayList<>();
 
     public Book(Long id, String title, String author, int yearOfPublishing) {
         this.id = id;
@@ -47,6 +51,16 @@ public class Book {
         return yearOfPublishing;
     }
 
+    @OneToMany(
+            targetEntity = BookCopy.class,
+            mappedBy = "book",
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY
+    )
+    public List<BookCopy> getBookCopies() {
+        return bookCopies;
+    }
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -61,5 +75,26 @@ public class Book {
 
     public void setYearOfPublishing(int yearOfPublishing) {
         this.yearOfPublishing = yearOfPublishing;
+    }
+
+
+    public void setBookCopies(List<BookCopy> bookCopies) {
+        this.bookCopies = bookCopies;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Book book = (Book) o;
+        return yearOfPublishing == book.yearOfPublishing &&
+                Objects.equals(id, book.id) &&
+                Objects.equals(title, book.title) &&
+                Objects.equals(author, book.author);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, title, author, yearOfPublishing);
     }
 }

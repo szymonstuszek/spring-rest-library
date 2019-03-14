@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "USERS")
@@ -14,6 +16,7 @@ public class User {
     private String firstName;
     private String lastName;
     private LocalDate accountCreationDate;
+    private List<Rental> rentals = new ArrayList<>();
 
     public User(Long id, String firstName, String lastName, LocalDate accountCreationDate) {
         this.id = id;
@@ -47,6 +50,16 @@ public class User {
         return accountCreationDate;
     }
 
+    @OneToMany(
+            targetEntity = Rental.class,
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY,
+            mappedBy = "user"
+    )
+    public List<Rental> getRentals() {
+        return rentals;
+    }
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -61,5 +74,9 @@ public class User {
 
     public void setAccountCreationDate(LocalDate accountCreationDate) {
         this.accountCreationDate = accountCreationDate;
+    }
+
+    public void setRentals(List<Rental> rentals) {
+        this.rentals = rentals;
     }
 }
