@@ -1,6 +1,7 @@
 package com.kodilla.library.service;
 
 import com.kodilla.library.domain.BookCopy;
+import com.kodilla.library.domain.RentalStatus;
 import com.kodilla.library.repository.BookCopyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,5 +29,36 @@ public class BookCopyService {
 
     public void deleteBookCopy(final Long id) {
         bookCopyRepository.delete(id);
+    }
+
+    public void markBookAsAvailable(final Long id) {
+        markBookStatus(id, RentalStatus.AVAILABLE);
+    }
+
+    public void markBookAsDamaged(final Long id) {
+        markBookStatus(id, RentalStatus.DAMAGED);
+    }
+
+    public void markBookAsRented(final Long id) {
+        markBookStatus(id, RentalStatus.RENTED);
+    }
+
+    public void markBookAsLost(final Long id) {
+        markBookStatus(id, RentalStatus.LOST);
+    }
+
+    private void markBookStatus(Long id, RentalStatus rentalStatus) {
+        Optional<BookCopy> optionalBookCopy = bookCopyRepository.findById(id);
+
+        if(optionalBookCopy.isPresent()) {
+            BookCopy bookCopyToUpdate = optionalBookCopy.get();
+            bookCopyToUpdate.setRentalStatus(rentalStatus);
+            bookCopyRepository.save(bookCopyToUpdate);
+        }
+    }
+
+
+    public Long checkNumberOfCopiesOfBookWithStatus(Long id, RentalStatus status) {
+        return bookCopyRepository.countAllByBookIdAndRentalStatus(id, status);
     }
 }

@@ -1,6 +1,7 @@
 package com.kodilla.library.service;
 
 import com.kodilla.library.domain.Book;
+import com.kodilla.library.repository.BookCopyRepository;
 import com.kodilla.library.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,9 @@ public class BookService {
 
     @Autowired
     private BookRepository bookRepository;
+
+    @Autowired
+    private BookCopyRepository bookCopyRepository;
 
     public List<Book> getAllBooks() {
         return bookRepository.findAll();

@@ -9,12 +9,18 @@ public class UserDto {
     private String firstName;
     private String lastName;
     private LocalDate accountCreationDate;
+    private boolean active;
 
-    public UserDto(Long id, String firstName, String lastName, LocalDate accountCreationDate) {
+    public UserDto(Long id,
+                   String firstName,
+                   String lastName,
+                   LocalDate accountCreationDate,
+                   boolean active) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.accountCreationDate = accountCreationDate;
+        this.active = active;
     }
 
     public UserDto() {}
@@ -50,5 +56,13 @@ public class UserDto {
 
     public void setAccountCreationDate(LocalDate accountCreationDate) {
         this.accountCreationDate = accountCreationDate;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }

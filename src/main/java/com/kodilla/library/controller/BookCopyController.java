@@ -32,6 +32,26 @@ public class BookCopyController {
         return bookCopyMapper.mapToBookCopyDto(bookCopyService.getBookCopy(id).orElseThrow(BookCopyNotFoundException::new));
     }
 
+    @RequestMapping(method = RequestMethod.PATCH, value = "copy/available")
+    public void markBookAsAvailable(@RequestParam Long id) {
+        bookCopyService.markBookAsAvailable(id);
+    }
+
+    @RequestMapping(method = RequestMethod.PATCH, value = "copy/lost")
+    public void markBookAsLost(@RequestParam Long id) {
+        bookCopyService.markBookAsLost(id);
+    }
+
+    @RequestMapping(method = RequestMethod.PATCH, value = "copy/damaged")
+    public void markBookAsDamaged(@RequestParam Long id) {
+        bookCopyService.markBookAsDamaged(id);
+    }
+
+    @RequestMapping(method = RequestMethod.PATCH, value = "copy/rented")
+    public void markBookAsRented(@RequestParam Long id) {
+        bookCopyService.markBookAsRented(id);
+    }
+
     @RequestMapping(method = RequestMethod.DELETE, value = "copy")
     public void deleteBookCopy(@RequestParam Long id) {
         bookCopyService.deleteBookCopy(id);

@@ -16,13 +16,15 @@ public class User {
     private String firstName;
     private String lastName;
     private LocalDate accountCreationDate;
+    private boolean active;
     private List<Rental> rentals = new ArrayList<>();
 
-    public User(Long id, String firstName, String lastName, LocalDate accountCreationDate) {
+    public User(Long id, String firstName, String lastName, LocalDate accountCreationDate, boolean active) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.accountCreationDate = accountCreationDate;
+        this.active = true;
     }
 
     public User() {}
@@ -42,6 +44,11 @@ public class User {
     @Column(name = "LAST_NAME")
     public String getLastName() {
         return lastName;
+    }
+
+    @Column(name = "ACCOUNT_ACTIVE")
+    public boolean isActive() {
+        return active;
     }
 
     @Column(name = "ACCOUNT_CREATION_DATE")
@@ -70,6 +77,10 @@ public class User {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     public void setAccountCreationDate(LocalDate accountCreationDate) {

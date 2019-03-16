@@ -1,6 +1,8 @@
 package com.kodilla.library.domain.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.kodilla.library.domain.BookCopy;
+import com.kodilla.library.domain.User;
 
 import java.time.LocalDate;
 
@@ -9,12 +11,21 @@ public class RentalDto {
     private LocalDate dateOfRental;
     private LocalDate dateOfReturn;
     private LocalDate dueOnDate;
+    private User user;
+    private BookCopy bookCopy;
 
-    public RentalDto(Long id, LocalDate dateOfRental, LocalDate dateOfReturn, LocalDate dueOnDate) {
+    public RentalDto(Long id,
+                     LocalDate dateOfRental,
+                     LocalDate dateOfReturn,
+                     LocalDate dueOnDate,
+                     User user,
+                     BookCopy bookCopy) {
         this.id = id;
         this.dateOfRental = dateOfRental;
         this.dateOfReturn = dateOfReturn;
         this.dueOnDate = dueOnDate;
+        this.user = user;
+        this.bookCopy = bookCopy;
     }
 
     public RentalDto() {}
@@ -52,5 +63,21 @@ public class RentalDto {
 
     public void setDueOnDate(LocalDate dueOnDate) {
         this.dueOnDate = dueOnDate;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public BookCopy getBookCopy() {
+        return bookCopy;
+    }
+
+    public void setBookCopy(BookCopy bookCopy) {
+        this.bookCopy = bookCopy;
     }
 }

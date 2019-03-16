@@ -190,4 +190,26 @@ public class BookRepositoryTests {
         assertFalse(erasedBookCopy.isPresent());
     }
 
+    @Test
+    public void saveBookWith10Copies() {
+        //Given
+        Book book = new Book(
+                1L,
+                "Life of Norman",
+                "Chloe Downstair",
+                2004
+        );
+
+        for (int i = 0; i < 10; i++) {
+            BookCopy bookCopy = new BookCopy(100L, RentalStatus.AVAILABLE, book);
+            book.getBookCopies().add(bookCopy);
+            bookCopy.setBook(book);
+        }
+
+        //When
+        Book savedBook = bookRepository.save(book);
+
+        //Then
+        assertEquals(10, savedBook.getBookCopies().size());
+    }
 }

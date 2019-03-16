@@ -15,7 +15,8 @@ public class UserMapper {
                 userDto.getId(),
                 userDto.getFirstName(),
                 userDto.getLastName(),
-                userDto.getAccountCreationDate()
+                userDto.getAccountCreationDate(),
+                userDto.isActive()
         );
     }
 
@@ -24,7 +25,8 @@ public class UserMapper {
                 user.getId(),
                 user.getFirstName(),
                 user.getLastName(),
-                user.getAccountCreationDate()
+                user.getAccountCreationDate(),
+                user.isActive()
         );
     }
 
@@ -34,7 +36,8 @@ public class UserMapper {
                         u.getId(),
                         u.getFirstName(),
                         u.getLastName(),
-                        u.getAccountCreationDate()
+                        u.getAccountCreationDate(),
+                        u.isActive()
                 ))
                 .collect(Collectors.toList());
     }

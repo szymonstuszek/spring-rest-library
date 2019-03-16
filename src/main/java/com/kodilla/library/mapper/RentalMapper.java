@@ -15,7 +15,9 @@ public class RentalMapper {
                 rentalDto.getId(),
                 rentalDto.getDateOfRental(),
                 rentalDto.getDateOfReturn(),
-                rentalDto.getDueOnDate()
+                rentalDto.getDueOnDate(),
+                rentalDto.getUser(),
+                rentalDto.getBookCopy()
         );
     }
 
@@ -24,7 +26,9 @@ public class RentalMapper {
                 rental.getId(),
                 rental.getDateOfRental(),
                 rental.getDateOfReturn(),
-                rental.getDueOnDate()
+                rental.getDueOnDate(),
+                rental.getUser(),
+                rental.getBookCopy()
         );
     }
 
@@ -34,7 +38,9 @@ public class RentalMapper {
                             r.getId(),
                             r.getDateOfRental(),
                             r.getDateOfReturn(),
-                            r.getDueOnDate()
+                            r.getDueOnDate(),
+                            r.getUser(),
+                            r.getBookCopy()
                 ))
                 .collect(Collectors.toList());
     }

@@ -10,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -61,5 +62,25 @@ public class BookCopyRepositoryTests {
 
         //Then
         assertEquals(1, savedBookWithACopy.getBookCopies().size());
+    }
+
+    @Test
+    public void testCountAllByBook() {
+        //Given
+        //When
+        //Then
+        Long count = bookCopyRepository.countAllByBookId(1L);
+
+        assertTrue(count > 1);
+    }
+
+    @Test
+    public void testCountAllByRentalStatusAvailable() {
+        //Given
+        //When
+        //Then
+        Long count = bookCopyRepository.countAllByRentalStatus(RentalStatus.AVAILABLE);
+
+        assertTrue(count > 1);
     }
 }

@@ -15,11 +15,18 @@ public class Rental {
     private User user;
     private BookCopy bookCopy;
 
-    public Rental(Long id, LocalDate dateOfRental, LocalDate dateOfReturn, LocalDate dueOnDate) {
+    public Rental(Long id,
+                  LocalDate dateOfRental,
+                  LocalDate dateOfReturn,
+                  LocalDate dueOnDate,
+                  User user,
+                  BookCopy bookCopy) {
         this.id = id;
         this.dateOfRental = dateOfRental;
         this.dateOfReturn = dateOfReturn;
         this.dueOnDate = dueOnDate;
+        this.user = user;
+        this.bookCopy = bookCopy;
     }
 
     public Rental() {}
@@ -49,17 +56,13 @@ public class Rental {
         return dueOnDate;
     }
 
-    @ManyToOne(
-            cascade = CascadeType.ALL
-    )
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "USER_ID")
     public User getUser() {
         return user;
     }
 
-    @ManyToOne(
-            cascade = CascadeType.ALL
-    )
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "BOOK_COPY_ID")
     public BookCopy getBookCopy() {
         return bookCopy;
