@@ -1,6 +1,7 @@
 package com.kodilla.library.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
@@ -17,6 +18,7 @@ public class User {
     private String lastName;
     private LocalDate accountCreationDate;
     private boolean active;
+    private double penaltiesAmount = 0;
     private List<Rental> rentals = new ArrayList<>();
 
     public User(Long id, String firstName, String lastName, LocalDate accountCreationDate, boolean active) {
@@ -27,10 +29,17 @@ public class User {
         this.active = true;
     }
 
+    public User(String firstName, String lastName, LocalDate accountCreationDate, boolean active) {
+            this.firstName = firstName;
+            this.lastName = lastName;
+            this.accountCreationDate = accountCreationDate;
+            this.active = active;
+    }
+
     public User() {}
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ID_USER")
     public Long getId() {
         return id;
@@ -63,8 +72,14 @@ public class User {
             fetch = FetchType.LAZY,
             mappedBy = "user"
     )
+    @JsonIgnore
     public List<Rental> getRentals() {
         return rentals;
+    }
+
+    @Column(name = "PENALTIES_AMOUNT")
+    public double getPenaltiesAmount() {
+        return penaltiesAmount;
     }
 
     public void setId(Long id) {
@@ -89,5 +104,9 @@ public class User {
 
     public void setRentals(List<Rental> rentals) {
         this.rentals = rentals;
+    }
+
+    public void setPenaltiesAmount(double penaltiesAmount) {
+        this.penaltiesAmount = penaltiesAmount;
     }
 }

@@ -1,6 +1,7 @@
 package com.kodilla.library.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -29,10 +30,20 @@ public class Rental {
         this.bookCopy = bookCopy;
     }
 
+    public Rental(LocalDate dateOfRental, LocalDate dateOfReturn,
+                      LocalDate dueOnDate, User user,
+                      BookCopy bookCopy) {
+            this.dateOfRental = dateOfRental;
+            this.dateOfReturn = dateOfReturn;
+            this.dueOnDate = dueOnDate;
+            this.user = user;
+            this.bookCopy = bookCopy;
+    }
+
     public Rental() {}
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ID_RENTAL")
     public Long getId() {
         return id;
@@ -56,13 +67,14 @@ public class Rental {
         return dueOnDate;
     }
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     @JoinColumn(name = "USER_ID")
+    @JsonIgnore
     public User getUser() {
         return user;
     }
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     @JoinColumn(name = "BOOK_COPY_ID")
     public BookCopy getBookCopy() {
         return bookCopy;

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/v1/library")
@@ -52,9 +53,38 @@ public class RentalController {
     public RentalDto rentBook(
             @RequestParam Long userId,
             @RequestParam Long bookCopyId)
-            throws UserNotFoundException, BookCopyNotFoundException {
+            throws UserNotFoundException, BookCopyNotFoundException, RentalNotPossibleException {
 
         Rental rental = rentalService.addRental(userId, bookCopyId);
-        return rentalMapper.mapToRentalDto(rental);
+
+        if(rental != null) {
+            return rentalMapper.mapToRentalDto(rental);
+        } else {
+            throw new RentalNotPossibleException();
+        }
+    }
+
+    @RequestMapping(method = RequestMethod.PUT, value = "rental-return")
+    public RentalDto returnBook(
+            @RequestParam Long rentalId) throws RentalNotFoundException {
+        Rental finishedRental = rentalService.returnBook(rentalId);
+
+        if(finishedRental != null) {
+            return rentalMapper.mapToRentalDto(finishedRental);
+        } else {
+            throw new RentalNotFoundException();
+        }
+    }
+
+    @RequestMapping(method = RequestMethod.PUT, value = "rental-damaged")
+    public RentalDto returnDamagedBook(
+            @RequestParam Long rentalId) throws RentalNotFoundException {
+        Rental finishedRental = rentalService.returnDamagedBook(rentalId);
+
+        if(finishedRental != null) {
+            return rentalMapper.mapToRentalDto(finishedRental);
+        } else {
+            throw new RentalNotFoundException();
+        }
     }
 }

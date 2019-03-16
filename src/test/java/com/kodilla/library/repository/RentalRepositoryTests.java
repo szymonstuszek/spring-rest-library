@@ -29,12 +29,14 @@ public class RentalRepositoryTests {
     public void testSaveRental() {
         //Given
         BookCopy bookCopy = new BookCopy(1L, RentalStatus.AVAILABLE, null);
-        User user = new User(5L, "Greg", "Downhill", LocalDate.now());
+        User user = new User(5L, "Greg", "Downhill", LocalDate.now(), true);
         Rental rental = new Rental(
                             1L,
                             LocalDate.now(),
                             null,
-                            LocalDate.of(2019, 3,24)
+                            LocalDate.of(2019, 3,24),
+                            user,
+                            bookCopy
         );
         rental.setBookCopy(bookCopy);
         rental.setUser(user);

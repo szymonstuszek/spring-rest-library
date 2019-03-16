@@ -47,4 +47,9 @@ public class UserController {
     public void createUser(@RequestBody UserDto userDto) {
         userService.addUser(userMapper.mapToUser(userDto));
     }
+
+    @RequestMapping(method = RequestMethod.PUT, value = "user-penalty")
+    public void createUser(@RequestParam Long userId) throws UserNotFoundException {
+        userService.payPenalties(userId);
+    }
 }

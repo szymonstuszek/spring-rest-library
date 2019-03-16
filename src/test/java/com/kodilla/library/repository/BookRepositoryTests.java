@@ -194,16 +194,15 @@ public class BookRepositoryTests {
     public void saveBookWith10Copies() {
         //Given
         Book book = new Book(
-                1L,
-                "Life of Norman",
-                "Chloe Downstair",
+                2L,
+                "10 days of food",
+                "George Michael",
                 2004
         );
 
         for (int i = 0; i < 10; i++) {
-            BookCopy bookCopy = new BookCopy(100L, RentalStatus.AVAILABLE, book);
+            BookCopy bookCopy = new BookCopy(100L, RentalStatus.LOST, book);
             book.getBookCopies().add(bookCopy);
-            bookCopy.setBook(book);
         }
 
         //When

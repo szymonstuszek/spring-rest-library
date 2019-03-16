@@ -5,6 +5,7 @@ import com.kodilla.library.domain.Rental;
 import com.kodilla.library.domain.RentalStatus;
 import com.kodilla.library.domain.User;
 import com.kodilla.library.exception.BookCopyNotFoundException;
+import com.kodilla.library.exception.RentalNotFoundException;
 import com.kodilla.library.exception.UserNotFoundException;
 import com.kodilla.library.repository.BookCopyRepository;
 import com.kodilla.library.repository.RentalRepository;
@@ -36,6 +37,14 @@ public class RentalService {
         return rentalRepository.findById(id);
     }
 
+    public Rental updateRental(final Rental Rental) {
+        return rentalRepository.save(Rental);
+    }
+
+    public void deleteRental(final Long id) {
+        rentalRepository.delete(id);
+    }
+
     public Rental addRental(final Long userId, final Long bookCopyId) throws
             UserNotFoundException, BookCopyNotFoundException {
 
@@ -43,6 +52,7 @@ public class RentalService {
         if(isAccountActive(userId) & isBookAvailable(bookCopyId)) {
             Rental rentalToSave = createRental(userId, bookCopyId);
             rental = rentalRepository.save(rentalToSave);
+            markBookCopyAsRented(bookCopyId);
         }
 
         return rental;
@@ -63,17 +73,12 @@ public class RentalService {
         }
 
         return new Rental(
-                1L,
                 LocalDate.now(),
                 null,
                 LocalDate.now().plusDays(14),
                 user,
                 bookCopy
         );
-    }
-
-    public void deleteRental(final Long id) {
-        rentalRepository.delete(id);
     }
 
     private boolean isBookAvailable(Long bookId) throws BookCopyNotFoundException {
@@ -96,7 +101,58 @@ public class RentalService {
         }
     }
 
-    public Rental updateRental(final Rental Rental) {
-        return rentalRepository.save(Rental);
+    private void markBookCopyAsRented(Long bookCopyId) {
+        BookCopy rentedCopy = bookCopyRepository.findOne(bookCopyId);
+        rentedCopy.setRentalStatus(RentalStatus.RENTED);
+        bookCopyRepository.save(rentedCopy);
+    }
+
+    public Rental returnBook(Long rentalId) throws RentalNotFoundException {
+        Optional<Rental> optionalRental = rentalRepository.findById(rentalId);
+
+        Rental finishedRental;
+        if (optionalRental.isPresent()) {
+            finishedRental = optionalRental.get();
+            finishedRental.setDateOfReturn(LocalDate.now());
+            rentalRepository.save(finishedRental);
+
+            Long returnedBookCopyId = finishedRental.getBookCopy().getId();
+            markBookCopyAsAvailable(returnedBookCopyId);
+
+        } else {
+            throw new RentalNotFoundException();
+        }
+
+        return finishedRental;
+    }
+
+    private void markBookCopyAsAvailable(Long bookCopyId) {
+        BookCopy returnedCopy = bookCopyRepository.findOne(bookCopyId);
+        returnedCopy.setRentalStatus(RentalStatus.AVAILABLE);
+        bookCopyRepository.save(returnedCopy);
+    }
+
+    public Rental returnDamagedBook(Long rentalId) throws RentalNotFoundException {
+        Rental finishedRental = returnBook(rentalId);
+
+        Long userId = finishedRental.getUser().getId();
+        Optional<User> optionalUser = userRepository.findById(userId);
+        if(optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            double penaltiesAmount = user.getPenaltiesAmount();
+            user.setPenaltiesAmount(penaltiesAmount + 5.0);
+            userRepository.save(user);
+
+            Long damagedBookId = finishedRental.getBookCopy().getId();
+            markBookCopyAsDamaged(damagedBookId);
+        }
+
+        return finishedRental;
+    }
+
+    private void markBookCopyAsDamaged(Long bookCopyId) {
+        BookCopy returnedCopy = bookCopyRepository.findOne(bookCopyId);
+        returnedCopy.setRentalStatus(RentalStatus.DAMAGED);
+        bookCopyRepository.save(returnedCopy);
     }
 }

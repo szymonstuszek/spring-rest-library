@@ -20,11 +20,16 @@ public class BookCopy {
         this.book = book;
     }
 
+    public BookCopy(RentalStatus rentalStatus, Book book) {
+        this.rentalStatus = rentalStatus;
+        this.book = book;
+    }
+
     public BookCopy() {
     }
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ID_BOOK_COPY")
     public Long getId() {
         return id;
@@ -44,7 +49,7 @@ public class BookCopy {
 
     @OneToMany(
             targetEntity = Rental.class,
-            fetch = FetchType.EAGER,
+            fetch = FetchType.LAZY,
             cascade = CascadeType.ALL,
             mappedBy = "bookCopy"
     )

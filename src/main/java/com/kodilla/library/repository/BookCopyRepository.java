@@ -15,6 +15,8 @@ public interface BookCopyRepository extends CrudRepository<BookCopy, Long> {
     @Override
     List<BookCopy> findAll();
 
+    List<BookCopy> findAllByBookId(Long bookId);
+
     @Override
     BookCopy save(BookCopy bookCopy);
 

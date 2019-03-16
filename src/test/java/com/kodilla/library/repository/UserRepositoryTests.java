@@ -21,7 +21,7 @@ public class UserRepositoryTests {
     @Test
     public void testCreateUser() {
         //Given
-        User user = new User(1L, "John", "Doe", LocalDate.now());
+        User user = new User(1L, "John", "Doe", LocalDate.now(), true);
 
         //When
         User savedUser = userRepository.save(user);
@@ -33,7 +33,7 @@ public class UserRepositoryTests {
     @Test
     public void testReadUser() {
         //Given
-        User user = new User(1L, "John", "Doe", LocalDate.now());
+        User user = new User(1L, "John", "Doe", LocalDate.now(), true);
         User savedUser = userRepository.save(user);
 
         //When
@@ -47,7 +47,7 @@ public class UserRepositoryTests {
     @Test
     public void testUpdateUser() {
         //Given
-        User user = new User(1L, "John", "Doe", LocalDate.now());
+        User user = new User(1L, "John", "Doe", LocalDate.now(), true);
         User savedUser = userRepository.save(user);
 
         //When
@@ -66,7 +66,7 @@ public class UserRepositoryTests {
     @Test
     public void testDeleteUser() {
         //Given
-        User user = new User(1L, "Michael", "Doeglas", LocalDate.now());
+        User user = new User(1L, "Michael", "Doeglas", LocalDate.now(), true);
 
         //When
         User savedUser = userRepository.save(user);
