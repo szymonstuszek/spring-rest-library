@@ -278,4 +278,44 @@ public class RentalServiceTests {
         assertEquals(returnedBookCopy.getRentalStatus(), RentalStatus.DAMAGED);
         assertTrue(userThatHasToPayPenalty.getPenaltiesAmount() > 0);
     }
+
+    @Test
+    public void testBookHasBeenLost() throws UserNotFoundException, BookCopyNotFoundException, RentalNotFoundException {
+        //Given
+        User user = new User(
+                "Johhny" + random.nextInt(1000),
+                "Bravo",
+                LocalDate.now().minusDays(130),
+                true
+        );
+
+        User savedUser = userRepository.save(user);
+        Long userId = savedUser.getId();
+
+        Book book = new Book("Glamorous hairs" + random.nextInt(1000), "Wilhelm Tell", 2018);
+
+        for (int i = 0; i < 1; i++) {
+            BookCopy bookCopy = new BookCopy(RentalStatus.AVAILABLE, book);
+            book.getBookCopies().add(bookCopy);
+        }
+
+        Book savedBook = bookRepository.save(book);
+        Long bookId = savedBook.getId();
+
+        List<BookCopy> bookCopies = bookCopyRepository.findAllByBookId(bookId);
+        BookCopy copyToRent = bookCopies.get(0);
+        Long copyToRentId = copyToRent.getId();
+
+        Rental rental = rentalService.addRental(userId, copyToRentId);
+        Long rentalId = rental.getId();
+
+        //When
+        Rental finishedRental = rentalService.bookHasBeenLost(rentalId);
+        User userThatLostTheBook = userRepository.findOne(userId);
+        BookCopy lostBookCopy = bookCopyRepository.findOne(copyToRentId);
+
+        //Then
+        assertTrue(userThatLostTheBook.getPenaltiesAmount() >= 15.0 );
+        assertEquals(lostBookCopy.getRentalStatus(), RentalStatus.LOST);
+    }
 }

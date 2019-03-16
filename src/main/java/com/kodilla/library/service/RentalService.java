@@ -29,6 +29,9 @@ public class RentalService {
     @Autowired
     private BookCopyRepository bookCopyRepository;
 
+    @Autowired
+    private BookCopyService bookCopyService;
+
     public List<Rental> getAllRentals() {
         return rentalRepository.findAll();
     }
@@ -154,5 +157,23 @@ public class RentalService {
         BookCopy returnedCopy = bookCopyRepository.findOne(bookCopyId);
         returnedCopy.setRentalStatus(RentalStatus.DAMAGED);
         bookCopyRepository.save(returnedCopy);
+    }
+
+    public Rental bookHasBeenLost(Long rentalId) throws RentalNotFoundException {
+        Rental finishedRental = returnBook(rentalId);
+
+        Long userId = finishedRental.getUser().getId();
+        Optional<User> optionalUser = userRepository.findById(userId);
+        if(optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            double penaltiesAmount = user.getPenaltiesAmount();
+            user.setPenaltiesAmount(penaltiesAmount + 15.0);
+            userRepository.save(user);
+
+            Long lostBookId = finishedRental.getBookCopy().getId();
+            bookCopyService.markBookAsLost(lostBookId);
+        }
+
+        return finishedRental;
     }
 }

@@ -87,4 +87,16 @@ public class RentalController {
             throw new RentalNotFoundException();
         }
     }
+
+    @RequestMapping(method = RequestMethod.PUT, value = "rental-lost")
+    public RentalDto bookHasBeenLost(
+            @RequestParam Long rentalId) throws RentalNotFoundException {
+        Rental finishedRental = rentalService.bookHasBeenLost(rentalId);
+
+        if(finishedRental != null) {
+            return rentalMapper.mapToRentalDto(finishedRental);
+        } else {
+            throw new RentalNotFoundException();
+        }
+    }
 }
