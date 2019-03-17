@@ -2,7 +2,7 @@ package com.kodilla.library.repository;
 
 import com.kodilla.library.domain.BookCopy;
 import com.kodilla.library.domain.Rental;
-import com.kodilla.library.domain.RentalStatus;
+import com.kodilla.library.domain.enums.RentalStatus;
 import com.kodilla.library.domain.User;
 import org.junit.Test;
 import org.junit.runner.RunWith;

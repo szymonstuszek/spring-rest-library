@@ -2,7 +2,7 @@ package com.kodilla.library.domain.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.kodilla.library.domain.Book;
-import com.kodilla.library.domain.RentalStatus;
+import com.kodilla.library.domain.enums.RentalStatus;
 
 
 public class BookCopyDto {

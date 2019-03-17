@@ -1,6 +1,6 @@
 package com.kodilla.library.controller;
 
-import com.kodilla.library.domain.RentalStatus;
+import com.kodilla.library.domain.enums.RentalStatus;
 import com.kodilla.library.exception.BookNotFoundException;
 import com.kodilla.library.domain.dto.BookDto;
 import com.kodilla.library.mapper.BookMapper;

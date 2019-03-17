@@ -2,7 +2,7 @@ package com.kodilla.library.service;
 
 import com.kodilla.library.domain.BookCopy;
 import com.kodilla.library.domain.Rental;
-import com.kodilla.library.domain.RentalStatus;
+import com.kodilla.library.domain.enums.RentalStatus;
 import com.kodilla.library.domain.User;
 import com.kodilla.library.exception.BookCopyNotFoundException;
 import com.kodilla.library.exception.RentalNotFoundException;

@@ -1,7 +1,6 @@
 package com.kodilla.library.controller;
 
 import com.kodilla.library.domain.Rental;
-import com.kodilla.library.domain.RentalStatus;
 import com.kodilla.library.domain.dto.RentalDto;
 import com.kodilla.library.exception.BookCopyNotFoundException;
 import com.kodilla.library.exception.RentalNotFoundException;
@@ -12,9 +11,7 @@ import com.kodilla.library.service.RentalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/v1/library")

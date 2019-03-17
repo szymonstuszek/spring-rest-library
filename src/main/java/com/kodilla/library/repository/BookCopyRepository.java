@@ -1,8 +1,7 @@
 package com.kodilla.library.repository;
 
-import com.kodilla.library.domain.Book;
 import com.kodilla.library.domain.BookCopy;
-import com.kodilla.library.domain.RentalStatus;
+import com.kodilla.library.domain.enums.RentalStatus;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

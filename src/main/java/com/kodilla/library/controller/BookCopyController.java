@@ -1,7 +1,7 @@
 package com.kodilla.library.controller;
 
 import com.kodilla.library.domain.BookCopy;
-import com.kodilla.library.domain.RentalStatus;
+import com.kodilla.library.domain.enums.RentalStatus;
 import com.kodilla.library.domain.dto.BookCopyDto;
 import com.kodilla.library.exception.BookCopyNotFoundException;
 import com.kodilla.library.mapper.BookCopyMapper;
