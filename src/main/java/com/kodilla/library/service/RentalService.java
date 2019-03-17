@@ -17,6 +17,9 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+import static com.kodilla.library.constants.LibraryConstants.*;
+import static java.time.temporal.ChronoUnit.DAYS;
+
 @Service
 public class RentalService {
 
@@ -55,7 +58,7 @@ public class RentalService {
         if(isAccountActive(userId) & isBookAvailable(bookCopyId)) {
             Rental rentalToSave = createRental(userId, bookCopyId);
             rental = rentalRepository.save(rentalToSave);
-            markBookCopyAsRented(bookCopyId);
+            bookCopyService.markBookStatus(bookCopyId, RentalStatus.RENTED);
         }
 
         return rental;
@@ -78,7 +81,7 @@ public class RentalService {
         return new Rental(
                 LocalDate.now(),
                 null,
-                LocalDate.now().plusDays(14),
+                LocalDate.now().plusDays(DAYS_TO_RETURN_BOOK),
                 user,
                 bookCopy
         );
@@ -104,12 +107,6 @@ public class RentalService {
         }
     }
 
-    private void markBookCopyAsRented(Long bookCopyId) {
-        BookCopy rentedCopy = bookCopyRepository.findOne(bookCopyId);
-        rentedCopy.setRentalStatus(RentalStatus.RENTED);
-        bookCopyRepository.save(rentedCopy);
-    }
-
     public Rental returnBook(Long rentalId) throws RentalNotFoundException {
         Optional<Rental> optionalRental = rentalRepository.findById(rentalId);
 
@@ -119,8 +116,12 @@ public class RentalService {
             finishedRental.setDateOfReturn(LocalDate.now());
             rentalRepository.save(finishedRental);
 
+            if (hasToPayOverduePenalties(finishedRental)) {
+                applyOverduePenalties(finishedRental);
+            }
+
             Long returnedBookCopyId = finishedRental.getBookCopy().getId();
-            markBookCopyAsAvailable(returnedBookCopyId);
+            bookCopyService.markBookStatus(returnedBookCopyId, RentalStatus.AVAILABLE);
 
         } else {
             throw new RentalNotFoundException();
@@ -129,51 +130,56 @@ public class RentalService {
         return finishedRental;
     }
 
-    private void markBookCopyAsAvailable(Long bookCopyId) {
-        BookCopy returnedCopy = bookCopyRepository.findOne(bookCopyId);
-        returnedCopy.setRentalStatus(RentalStatus.AVAILABLE);
-        bookCopyRepository.save(returnedCopy);
+    private boolean hasToPayOverduePenalties(Rental rental) {
+        LocalDate dateOfReturn = rental.getDateOfReturn();
+        return dateOfReturn.isAfter(rental.getDueOnDate());
+    }
+
+    private double calculatePenalties(Rental rental) {
+        long daysOverdue = DAYS.between(
+                rental.getDueOnDate(),
+                rental.getDateOfReturn()
+        );
+
+        return (double) daysOverdue * PENALTY_PER_DAY_OVERDUE;
+    }
+
+    private void applyOverduePenalties(Rental rental) {
+        double penalties = calculatePenalties(rental);
+        Long userId = rental.getUser().getId();
+        Optional<User> optionalUser = userRepository.findById(userId);
+
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            double currentPenaltiesOfUser = user.getPenaltiesAmount();
+            user.setPenaltiesAmount(currentPenaltiesOfUser + penalties);
+            userRepository.save(user);
+        }
+    }
+
+    private void payPenalty(double amount, Rental rental, RentalStatus status) {
+        Long userId = rental.getUser().getId();
+        Optional<User> optionalUser = userRepository.findById(userId);
+        if(optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            double penaltiesAmount = user.getPenaltiesAmount();
+            user.setPenaltiesAmount(penaltiesAmount + amount);
+            userRepository.save(user);
+
+            Long damagedBookId = rental.getBookCopy().getId();
+            bookCopyService.markBookStatus(damagedBookId, status);
+        }
     }
 
     public Rental returnDamagedBook(Long rentalId) throws RentalNotFoundException {
         Rental finishedRental = returnBook(rentalId);
-
-        Long userId = finishedRental.getUser().getId();
-        Optional<User> optionalUser = userRepository.findById(userId);
-        if(optionalUser.isPresent()) {
-            User user = optionalUser.get();
-            double penaltiesAmount = user.getPenaltiesAmount();
-            user.setPenaltiesAmount(penaltiesAmount + 5.0);
-            userRepository.save(user);
-
-            Long damagedBookId = finishedRental.getBookCopy().getId();
-            markBookCopyAsDamaged(damagedBookId);
-        }
-
+        payPenalty(PENALTY_FOR_DAMAGING_A_BOOK, finishedRental, RentalStatus.DAMAGED);
         return finishedRental;
-    }
-
-    private void markBookCopyAsDamaged(Long bookCopyId) {
-        BookCopy returnedCopy = bookCopyRepository.findOne(bookCopyId);
-        returnedCopy.setRentalStatus(RentalStatus.DAMAGED);
-        bookCopyRepository.save(returnedCopy);
     }
 
     public Rental bookHasBeenLost(Long rentalId) throws RentalNotFoundException {
         Rental finishedRental = returnBook(rentalId);
-
-        Long userId = finishedRental.getUser().getId();
-        Optional<User> optionalUser = userRepository.findById(userId);
-        if(optionalUser.isPresent()) {
-            User user = optionalUser.get();
-            double penaltiesAmount = user.getPenaltiesAmount();
-            user.setPenaltiesAmount(penaltiesAmount + 15.0);
-            userRepository.save(user);
-
-            Long lostBookId = finishedRental.getBookCopy().getId();
-            bookCopyService.markBookAsLost(lostBookId);
-        }
-
+        payPenalty(PENALTY_FOR_LOSING_A_BOOK, finishedRental, RentalStatus.LOST);
         return finishedRental;
     }
 }

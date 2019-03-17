@@ -1,6 +1,7 @@
 package com.kodilla.library.controller;
 
 import com.kodilla.library.domain.BookCopy;
+import com.kodilla.library.domain.RentalStatus;
 import com.kodilla.library.domain.dto.BookCopyDto;
 import com.kodilla.library.exception.BookCopyNotFoundException;
 import com.kodilla.library.mapper.BookCopyMapper;
@@ -34,22 +35,22 @@ public class BookCopyController {
 
     @RequestMapping(method = RequestMethod.PATCH, value = "copy/available")
     public void markBookAsAvailable(@RequestParam Long id) {
-        bookCopyService.markBookAsAvailable(id);
+        bookCopyService.markBookStatus(id, RentalStatus.AVAILABLE);
     }
 
     @RequestMapping(method = RequestMethod.PATCH, value = "copy/lost")
     public void markBookAsLost(@RequestParam Long id) {
-        bookCopyService.markBookAsLost(id);
+        bookCopyService.markBookStatus(id, RentalStatus.LOST);
     }
 
     @RequestMapping(method = RequestMethod.PATCH, value = "copy/damaged")
     public void markBookAsDamaged(@RequestParam Long id) {
-        bookCopyService.markBookAsDamaged(id);
+        bookCopyService.markBookStatus(id, RentalStatus.DAMAGED);
     }
 
     @RequestMapping(method = RequestMethod.PATCH, value = "copy/rented")
     public void markBookAsRented(@RequestParam Long id) {
-        bookCopyService.markBookAsRented(id);
+        bookCopyService.markBookStatus(id, RentalStatus.RENTED);
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "copy")

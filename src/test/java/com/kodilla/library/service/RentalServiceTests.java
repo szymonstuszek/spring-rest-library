@@ -18,6 +18,8 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Random;
 
+import static com.kodilla.library.constants.LibraryConstants.DAYS_TO_RETURN_BOOK;
+import static java.time.temporal.ChronoUnit.DAYS;
 import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
@@ -318,4 +320,81 @@ public class RentalServiceTests {
         assertTrue(userThatLostTheBook.getPenaltiesAmount() >= 15.0 );
         assertEquals(lostBookCopy.getRentalStatus(), RentalStatus.LOST);
     }
+
+    @Test
+    public void testHasToPayPenalties() {
+        //Given
+        Rental rentalOnTime =  new Rental(
+                LocalDate.now(),
+                LocalDate.now().plusDays(7),
+                LocalDate.now().plusDays(DAYS_TO_RETURN_BOOK),
+                new User(),
+                new BookCopy()
+        );
+
+        Rental rentalOverDue =  new Rental(
+                LocalDate.now(),
+                LocalDate.now().plusDays(30),
+                LocalDate.now().plusDays(DAYS_TO_RETURN_BOOK),
+                new User(),
+                new BookCopy()
+        );
+
+        LocalDate dateOfReturn1 = rentalOnTime.getDateOfReturn();
+        LocalDate dateOfReturn2 = rentalOverDue.getDateOfReturn();
+
+        //When & Then
+        assertFalse(dateOfReturn1.isAfter(rentalOnTime.getDueOnDate()));
+        assertTrue(dateOfReturn2.isAfter(rentalOnTime.getDueOnDate()));
+    }
+
+    @Test
+    public void testHasToPayPenaltiesOnDateOverdue() {
+        //Given
+        Rental rentalOnDueDate =  new Rental(
+                LocalDate.now(),
+                LocalDate.now().plusDays(14),
+                LocalDate.now().plusDays(DAYS_TO_RETURN_BOOK),
+                new User(),
+                new BookCopy()
+        );
+        LocalDate dateOfReturn = rentalOnDueDate.getDateOfReturn();
+
+        //When & Then
+        assertFalse(dateOfReturn.isAfter(rentalOnDueDate.getDueOnDate()));
+    }
+
+    @Test
+    public void testCalculatePenalties() {
+        //Given
+        Rental rentalOverDue1 =  new Rental(
+                LocalDate.now(),
+                LocalDate.now().plusDays(15),
+                LocalDate.now().plusDays(DAYS_TO_RETURN_BOOK),
+                new User(),
+                new BookCopy()
+        );
+
+        Rental rentalOverDue2 =  new Rental(
+                LocalDate.now(),
+                LocalDate.now().plusDays(20),
+                LocalDate.now().plusDays(DAYS_TO_RETURN_BOOK),
+                new User(),
+                new BookCopy()
+        );
+
+        long daysOverdue1 = DAYS.between(
+                rentalOverDue1.getDueOnDate(),
+               rentalOverDue1.getDateOfReturn()
+        );
+
+        long daysOverdue2 = DAYS.between(
+                rentalOverDue2.getDueOnDate(),
+                rentalOverDue2.getDateOfReturn()
+        );
+
+        assertTrue(daysOverdue1 == 1);
+        assertTrue(daysOverdue2 == 6);
+    }
+
 }

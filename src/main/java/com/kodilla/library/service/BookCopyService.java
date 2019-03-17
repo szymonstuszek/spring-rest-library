@@ -31,23 +31,7 @@ public class BookCopyService {
         bookCopyRepository.delete(id);
     }
 
-    public void markBookAsAvailable(final Long id) {
-        markBookStatus(id, RentalStatus.AVAILABLE);
-    }
-
-    public void markBookAsDamaged(final Long id) {
-        markBookStatus(id, RentalStatus.DAMAGED);
-    }
-
-    public void markBookAsRented(final Long id) {
-        markBookStatus(id, RentalStatus.RENTED);
-    }
-
-    public void markBookAsLost(final Long id) {
-        markBookStatus(id, RentalStatus.LOST);
-    }
-
-    private void markBookStatus(Long id, RentalStatus rentalStatus) {
+    public void markBookStatus(Long id, RentalStatus rentalStatus) {
         Optional<BookCopy> optionalBookCopy = bookCopyRepository.findById(id);
 
         if(optionalBookCopy.isPresent()) {
@@ -56,7 +40,6 @@ public class BookCopyService {
             bookCopyRepository.save(bookCopyToUpdate);
         }
     }
-
 
     public Long checkNumberOfCopiesOfBookWithStatus(Long id, RentalStatus status) {
         return bookCopyRepository.countAllByBookIdAndRentalStatus(id, status);

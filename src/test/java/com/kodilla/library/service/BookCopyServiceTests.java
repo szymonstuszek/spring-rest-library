@@ -34,7 +34,7 @@ public class BookCopyServiceTests {
         Long copyId = savedCopy.getId();
 
         //When
-        bookCopyService.markBookAsAvailable(copyId);
+        bookCopyService.markBookStatus(copyId, RentalStatus.AVAILABLE);
         BookCopy updatedBook = bookCopyRepository.findOne(copyId);
 
         //Then
@@ -52,7 +52,7 @@ public class BookCopyServiceTests {
         Long copyId = savedCopy.getId();
 
         //When
-        bookCopyService.markBookAsLost(copyId);
+        bookCopyService.markBookStatus(copyId, RentalStatus.LOST);
         BookCopy updatedBook = bookCopyRepository.findOne(copyId);
 
         //Then
@@ -70,7 +70,7 @@ public class BookCopyServiceTests {
         Long copyId = savedCopy.getId();
 
         //When
-        bookCopyService.markBookAsDamaged(copyId);
+        bookCopyService.markBookStatus(copyId, RentalStatus.DAMAGED);
         BookCopy updatedBook = bookCopyRepository.findOne(copyId);
 
         //Then
@@ -88,7 +88,7 @@ public class BookCopyServiceTests {
         Long copyId = savedCopy.getId();
 
         //When
-        bookCopyService.markBookAsRented(copyId);
+        bookCopyService.markBookStatus(copyId, RentalStatus.RENTED);
         BookCopy updatedBook = bookCopyRepository.findOne(copyId);
 
         //Then
