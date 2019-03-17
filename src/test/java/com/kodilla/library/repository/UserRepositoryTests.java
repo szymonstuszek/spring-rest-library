@@ -21,13 +21,13 @@ public class UserRepositoryTests {
     @Test
     public void testCreateUser() {
         //Given
-        User user = new User(1L, "John", "Doe", LocalDate.now(), true);
+        User user = new User("Michael", "Jackson", LocalDate.now(), true);
 
         //When
         User savedUser = userRepository.save(user);
 
         //Then
-        assertEquals("John", savedUser.getFirstName());
+        assertEquals("Michael", savedUser.getFirstName());
     }
 
     @Test
