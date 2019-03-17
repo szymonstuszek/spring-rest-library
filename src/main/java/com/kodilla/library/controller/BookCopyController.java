@@ -15,6 +15,7 @@ import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
 
 @RestController
 @RequestMapping("/v1/library")
+@CrossOrigin("*")
 public class BookCopyController {
 
     @Autowired

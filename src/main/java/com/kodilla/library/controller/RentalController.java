@@ -18,6 +18,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/v1/library")
+@CrossOrigin("*")
 public class RentalController {
 
     @Autowired

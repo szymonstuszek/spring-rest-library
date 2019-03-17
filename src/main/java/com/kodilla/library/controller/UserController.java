@@ -13,6 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/v1/library")
+@CrossOrigin("*")
 public class UserController {
 
     @Autowired
@@ -49,7 +50,7 @@ public class UserController {
     }
 
     @RequestMapping(method = RequestMethod.PUT, value = "user-penalty")
-    public void createUser(@RequestParam Long userId) throws UserNotFoundException {
+    public void payPenalties(@RequestParam Long userId) throws UserNotFoundException {
         userService.payPenalties(userId);
     }
 }

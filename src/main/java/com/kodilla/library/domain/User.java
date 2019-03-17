@@ -26,7 +26,7 @@ public class User {
         this.firstName = firstName;
         this.lastName = lastName;
         this.accountCreationDate = accountCreationDate;
-        this.active = true;
+        this.active = active;
     }
 
     public User(String firstName, String lastName, LocalDate accountCreationDate, boolean active) {
