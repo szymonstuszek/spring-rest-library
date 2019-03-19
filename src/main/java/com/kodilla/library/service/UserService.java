@@ -6,6 +6,7 @@ import com.kodilla.library.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,7 +37,7 @@ public class UserService {
 
         if(optionalUser.isPresent()) {
             User user = optionalUser.get();
-            user.setPenaltiesAmount(0);
+            user.setPenaltiesAmount(BigDecimal.ZERO);
             userRepository.save(user);
 
         } else {

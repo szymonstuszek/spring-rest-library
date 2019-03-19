@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import static junit.framework.TestCase.assertEquals;
@@ -34,7 +35,7 @@ public class UserServiceTests {
                 true
         );
 
-        user.setPenaltiesAmount(30.0);
+        user.setPenaltiesAmount(BigDecimal.valueOf(30));
 
         User savedUser = userRepository.save(user);
         Long userId = savedUser.getId();
@@ -45,6 +46,7 @@ public class UserServiceTests {
         User userAfterPayingPenalties = userRepository.findOne(userId);
 
         //Then
-        assertEquals(userAfterPayingPenalties.getPenaltiesAmount(), 0.0);
+        assertTrue(userAfterPayingPenalties.getPenaltiesAmount()
+                .compareTo(BigDecimal.ZERO) == 0);
     }
 }

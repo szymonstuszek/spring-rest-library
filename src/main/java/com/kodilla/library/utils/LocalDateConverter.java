@@ -1,4 +1,4 @@
-package com.kodilla.library.converter;
+package com.kodilla.library.utils;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;

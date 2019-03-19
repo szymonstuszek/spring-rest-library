@@ -13,6 +13,7 @@ import com.kodilla.library.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -135,35 +136,36 @@ public class RentalService {
         return dateOfReturn.isAfter(rental.getDueOnDate());
     }
 
-    private double calculatePenalties(Rental rental) {
+    private BigDecimal calculatePenalties(Rental rental) {
         long daysOverdue = DAYS.between(
                 rental.getDueOnDate(),
                 rental.getDateOfReturn()
         );
 
-        return (double) daysOverdue * PENALTY_PER_DAY_OVERDUE;
+        return PENALTY_PER_DAY_OVERDUE.multiply(BigDecimal.valueOf(daysOverdue));
     }
 
     private void applyOverduePenalties(Rental rental) {
-        double penalties = calculatePenalties(rental);
+        BigDecimal penalties = calculatePenalties(rental);
         Long userId = rental.getUser().getId();
         Optional<User> optionalUser = userRepository.findById(userId);
 
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
-            double currentPenaltiesOfUser = user.getPenaltiesAmount();
-            user.setPenaltiesAmount(currentPenaltiesOfUser + penalties);
+            BigDecimal currentPenaltiesOfUser = user.getPenaltiesAmount();
+            user.setPenaltiesAmount(currentPenaltiesOfUser.add(penalties));
             userRepository.save(user);
         }
     }
 
-    private void payPenalty(double amount, Rental rental, RentalStatus status) {
+    private void payPenalty(BigDecimal amount, Rental rental, RentalStatus status) {
         Long userId = rental.getUser().getId();
         Optional<User> optionalUser = userRepository.findById(userId);
+
         if(optionalUser.isPresent()) {
             User user = optionalUser.get();
-            double penaltiesAmount = user.getPenaltiesAmount();
-            user.setPenaltiesAmount(penaltiesAmount + amount);
+            BigDecimal penaltiesAmount = user.getPenaltiesAmount();
+            user.setPenaltiesAmount(penaltiesAmount.add(amount));
             userRepository.save(user);
 
             Long damagedBookId = rental.getBookCopy().getId();

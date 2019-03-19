@@ -2,10 +2,9 @@ package com.kodilla.library.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +17,7 @@ public class User {
     private String lastName;
     private LocalDate accountCreationDate;
     private boolean active;
-    private double penaltiesAmount = 0;
+    private BigDecimal penaltiesAmount = BigDecimal.ZERO;
     private List<Rental> rentals = new ArrayList<>();
 
     public User(Long id, String firstName, String lastName, LocalDate accountCreationDate, boolean active) {
@@ -78,7 +77,7 @@ public class User {
     }
 
     @Column(name = "PENALTIES_AMOUNT")
-    public double getPenaltiesAmount() {
+    public BigDecimal getPenaltiesAmount() {
         return penaltiesAmount;
     }
 
@@ -106,7 +105,7 @@ public class User {
         this.rentals = rentals;
     }
 
-    public void setPenaltiesAmount(double penaltiesAmount) {
+    public void setPenaltiesAmount(BigDecimal penaltiesAmount) {
         this.penaltiesAmount = penaltiesAmount;
     }
 }

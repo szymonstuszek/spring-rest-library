@@ -1,8 +1,10 @@
 package com.kodilla.library.constants;
 
-public class LibraryConstants {
-    public final static long DAYS_TO_RETURN_BOOK = 14;
-    public final static double PENALTY_PER_DAY_OVERDUE = 1.0;
-    public final static double PENALTY_FOR_DAMAGING_A_BOOK = 5.0;
-    public final static double PENALTY_FOR_LOSING_A_BOOK = 15.0;
+import java.math.BigDecimal;
+
+public interface LibraryConstants {
+    long DAYS_TO_RETURN_BOOK = 14;
+    BigDecimal PENALTY_PER_DAY_OVERDUE = new BigDecimal(1);
+    BigDecimal PENALTY_FOR_DAMAGING_A_BOOK = new BigDecimal(5);
+    BigDecimal PENALTY_FOR_LOSING_A_BOOK = new BigDecimal(15);
 }
