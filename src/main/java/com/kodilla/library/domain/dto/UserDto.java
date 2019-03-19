@@ -1,6 +1,5 @@
 package com.kodilla.library.domain.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.time.LocalDate;
 
@@ -49,7 +48,6 @@ public class UserDto {
         this.lastName = lastName;
     }
 
-    @JsonFormat(pattern="dd-MM-yyyy")
     public LocalDate getAccountCreationDate() {
         return accountCreationDate;
     }

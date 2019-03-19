@@ -2,6 +2,7 @@ package com.kodilla.library.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -60,7 +61,6 @@ public class User {
     }
 
     @Column(name = "ACCOUNT_CREATION_DATE")
-    @JsonFormat(pattern="dd-MM-yyyy")
     public LocalDate getAccountCreationDate() {
         return accountCreationDate;
     }
