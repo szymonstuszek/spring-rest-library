@@ -1,8 +1,6 @@
 package com.kodilla.library.domain;
 
 import com.kodilla.library.domain.enums.RoleName;
-import org.hibernate.annotations.NaturalId;
-
 import javax.persistence.*;
 
 @Entity
@@ -13,8 +11,7 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Enumerated(EnumType.ORDINAL)
-    @NaturalId
+    @Enumerated(EnumType.STRING)
     @Column(name = "ROLE_NAME")
     private RoleName roleName;
 

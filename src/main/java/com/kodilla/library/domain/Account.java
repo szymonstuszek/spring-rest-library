@@ -25,7 +25,7 @@ public class Account {
     private Long id;
 
     @NotBlank
-    @Size(min=3, max = 50)
+    @Size(min = 4, max = 50)
     private String username;
 
     @NaturalId
@@ -36,7 +36,7 @@ public class Account {
     private String email;
 
     @NotBlank
-    @Size(min = 6, max = 50)
+    @Size(min = 6, max = 100)
     private String password;
 
     @ManyToMany(fetch = FetchType.LAZY)
@@ -47,9 +47,10 @@ public class Account {
 
     public Account() {}
 
-    public Account(String email, String password, Set<Role> roles) {
+    public Account(String email, String password, String username, Set<Role> roles) {
         this.email = email;
         this.password = password;
+        this.username = username;
         this.roles = roles;
     }
 
