@@ -1,7 +1,6 @@
 package com.kodilla.library.service;
 
 import com.kodilla.library.domain.User;
-import com.kodilla.library.exception.UserNotFoundException;
 import com.kodilla.library.repository.UserRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;

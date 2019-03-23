@@ -14,7 +14,7 @@ public class BookCopyMapper {
         return new BookCopy(
                 bookCopyDto.getId(),
                 bookCopyDto.getRentalStatus(),
-                bookCopyDto.getBook()
+                null
         );
     }
 
@@ -22,7 +22,7 @@ public class BookCopyMapper {
         return new BookCopyDto(
                 bookCopy.getId(),
                 bookCopy.getRentalStatus(),
-                bookCopy.getBook()
+                bookCopy.getBook().getId()
         );
     }
 
@@ -31,7 +31,7 @@ public class BookCopyMapper {
                 .map(c -> new BookCopyDto(
                         c.getId(),
                         c.getRentalStatus(),
-                        c.getBook())
+                        c.getBook().getId())
                 )
                 .collect(Collectors.toList());
     }

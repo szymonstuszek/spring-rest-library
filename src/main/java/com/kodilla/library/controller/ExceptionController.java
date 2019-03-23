@@ -35,37 +35,13 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
                 apiError, new HttpHeaders(), apiError.getStatus());
     }
 
-    @ExceptionHandler({ BookCopyNotFoundException.class })
+    @ExceptionHandler({ NotFoundException.class })
     public ResponseEntity<Object> handleBookCopyNotFoundException(
             BookCopyNotAvailableException ex, WebRequest request) {
-        String error = "Book copy not found.";
 
         ApiError apiError =
-                new ApiError(HttpStatus.BAD_REQUEST, ex.getMessage(), error);
+                new ApiError(HttpStatus.BAD_REQUEST, ex.getMessage(), "Exception.");
         return new ResponseEntity<>(
                 apiError, new HttpHeaders(), apiError.getStatus());
     }
-
-    @ExceptionHandler({ UserNotFoundException.class })
-    public ResponseEntity<Object> handleUserNotFoundException(
-            BookCopyNotAvailableException ex, WebRequest request) {
-        String error = "User not found.";
-
-        ApiError apiError =
-                new ApiError(HttpStatus.BAD_REQUEST, ex.getMessage(), error);
-        return new ResponseEntity<>(
-                apiError, new HttpHeaders(), apiError.getStatus());
-    }
-
-    @ExceptionHandler({ RentalNotFoundException.class })
-    public ResponseEntity<Object> handleRentalNotFoundException(
-            BookCopyNotAvailableException ex, WebRequest request) {
-        String error = "Rental not found.";
-
-        ApiError apiError =
-                new ApiError(HttpStatus.BAD_REQUEST, ex.getMessage(), error);
-        return new ResponseEntity<>(
-                apiError, new HttpHeaders(), apiError.getStatus());
-    }
-
 }

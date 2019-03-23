@@ -3,7 +3,7 @@ package com.kodilla.library.controller;
 import com.kodilla.library.domain.BookCopy;
 import com.kodilla.library.domain.enums.RentalStatus;
 import com.kodilla.library.domain.dto.BookCopyDto;
-import com.kodilla.library.exception.BookCopyNotFoundException;
+import com.kodilla.library.exception.NotFoundException;
 import com.kodilla.library.mapper.BookCopyMapper;
 import com.kodilla.library.service.BookCopyService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +14,10 @@ import java.util.List;
 import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
 
 @RestController
-@RequestMapping("/v1/library")
+@RequestMapping(value = "/v1/library",
+        consumes = APPLICATION_JSON_VALUE,
+        produces = APPLICATION_JSON_VALUE
+)
 @CrossOrigin("*")
 public class BookCopyController {
 
@@ -30,9 +33,9 @@ public class BookCopyController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "copy")
-    public BookCopyDto getBookCopy(@RequestParam Long id) throws BookCopyNotFoundException {
+    public BookCopyDto getBookCopy(@RequestParam Long id) throws NotFoundException {
         return bookCopyMapper.mapToBookCopyDto(bookCopyService.getBookCopy(id)
-                .orElseThrow(BookCopyNotFoundException::new));
+                .orElseThrow(NotFoundException::new));
     }
 
     @RequestMapping(method = RequestMethod.PATCH, value = "copy/available")
@@ -60,13 +63,16 @@ public class BookCopyController {
         bookCopyService.deleteBookCopy(id);
     }
 
-    @RequestMapping(method = RequestMethod.PUT, value = "copy")
-    public BookCopyDto updateBookCopyDto(@RequestBody BookCopyDto bookCopyDto) {
-        BookCopy bookCopy = bookCopyService.addBookCopy(bookCopyMapper.mapToBookCopy(bookCopyDto));
+    @RequestMapping(method = RequestMethod.PUT, value = "copies")
+    public BookCopyDto updateBookCopyDto(@RequestBody BookCopyDto bookCopyDto) throws NotFoundException {
+        BookCopy bookCopy = bookCopyMapper.mapToBookCopy(bookCopyDto);
+        Long bookIdToUpdate = bookCopyDto.getBookId();
+        bookCopyService.addBookCopy(bookCopy, bookIdToUpdate);
+
         return bookCopyMapper.mapToBookCopyDto(bookCopy);
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "copies", consumes = APPLICATION_JSON_VALUE)
+    @RequestMapping(method = RequestMethod.POST, value = "copies")
     public void addBookCopyDto(@RequestBody BookCopyDto bookCopyDto) {
         bookCopyService.addBookCopy(bookCopyMapper.mapToBookCopy(bookCopyDto));
     }

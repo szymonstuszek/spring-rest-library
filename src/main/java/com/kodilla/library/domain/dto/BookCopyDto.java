@@ -7,12 +7,12 @@ import com.kodilla.library.domain.enums.RentalStatus;
 
 public class BookCopyDto {
     private Long id;
-    private Book book;
+    private Long bookId;
     private RentalStatus rentalStatus;
 
-    public BookCopyDto(Long id, RentalStatus rentalStatus, Book book) {
+    public BookCopyDto(Long id, RentalStatus rentalStatus, Long bookId) {
         this.id = id;
-        this.book = book;
+        this.bookId = bookId;
         this.rentalStatus = rentalStatus;
     }
 
@@ -25,8 +25,8 @@ public class BookCopyDto {
         return id;
     }
 
-    public Book getBook() {
-        return book;
+    public Long getBookId() {
+        return bookId;
     }
 
     public RentalStatus getRentalStatus() {

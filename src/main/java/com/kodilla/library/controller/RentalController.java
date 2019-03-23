@@ -1,8 +1,6 @@
 package com.kodilla.library.controller;
 
-import com.kodilla.library.domain.BookCopy;
 import com.kodilla.library.domain.Rental;
-import com.kodilla.library.domain.User;
 import com.kodilla.library.domain.dto.RentalDto;
 import com.kodilla.library.exception.*;
 import com.kodilla.library.mapper.RentalMapper;
@@ -12,8 +10,13 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
+
 @RestController
-@RequestMapping("/v1/library")
+@RequestMapping(value = "/v1/library",
+        consumes = APPLICATION_JSON_VALUE,
+        produces = APPLICATION_JSON_VALUE
+)
 @CrossOrigin("*")
 public class RentalController {
 
@@ -29,17 +32,17 @@ public class RentalController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "rental")
-    public RentalDto getRental(@RequestParam Long id) throws RentalNotFoundException {
+    public RentalDto getRental(@RequestParam Long id) throws NotFoundException {
         return rentalMapper.mapToRentalDto(rentalService.getRental(id)
-                .orElseThrow(RentalNotFoundException::new));
+                .orElseThrow(NotFoundException::new));
     }
 
-    @RequestMapping(method = RequestMethod.DELETE, value = "rental")
+    @RequestMapping(method = RequestMethod.DELETE, value = "rentals")
     public void deleteRental(@RequestParam Long id) {
         rentalService.deleteRental(id);
     }
 
-    @RequestMapping(method = RequestMethod.PUT, value = "rental")
+    @RequestMapping(method = RequestMethod.PUT, value = "rentals")
     public RentalDto updateRental(@RequestBody RentalDto rentalDto)
             throws UserNotActiveException, BookCopyNotAvailableException {
         Rental rental = rentalMapper.mapToRental(rentalDto);
@@ -51,12 +54,11 @@ public class RentalController {
         return rentalMapper.mapToRentalDto(updatedRental);
     }
 
-    //void or RentalDto?
     @RequestMapping(method = RequestMethod.POST, value = "rentals")
     public RentalDto rentBook(
             @RequestParam Long userId,
             @RequestParam Long bookCopyId)
-            throws UserNotFoundException, BookCopyNotFoundException, RentalNotPossibleException {
+            throws NotFoundException, RentalNotPossibleException {
 
         Rental rental = rentalService.addRental(userId, bookCopyId);
 
@@ -67,39 +69,39 @@ public class RentalController {
         }
     }
 
-    @RequestMapping(method = RequestMethod.PUT, value = "rental-return")
+    @RequestMapping(method = RequestMethod.PUT, value = "rentals/return/{rentalId}")
     public RentalDto returnBook(
-            @RequestParam Long rentalId) throws RentalNotFoundException {
+            @PathVariable("rentalId") Long rentalId) throws NotFoundException {
         Rental finishedRental = rentalService.returnBook(rentalId);
 
         if(finishedRental != null) {
             return rentalMapper.mapToRentalDto(finishedRental);
         } else {
-            throw new RentalNotFoundException();
+            throw new NotFoundException();
         }
     }
 
-    @RequestMapping(method = RequestMethod.PUT, value = "rental-damaged")
+    @RequestMapping(method = RequestMethod.PUT, value = "rentals/damaged/{rentalId}")
     public RentalDto returnDamagedBook(
-            @RequestParam Long rentalId) throws RentalNotFoundException {
+            @PathVariable("rentalId") Long rentalId) throws NotFoundException {
         Rental finishedRental = rentalService.returnDamagedBook(rentalId);
 
         if(finishedRental != null) {
             return rentalMapper.mapToRentalDto(finishedRental);
         } else {
-            throw new RentalNotFoundException();
+            throw new NotFoundException();
         }
     }
 
-    @RequestMapping(method = RequestMethod.PUT, value = "rental-lost")
+    @RequestMapping(method = RequestMethod.PUT, value = "rentals/lost/{rentalId}")
     public RentalDto bookHasBeenLost(
-            @RequestParam Long rentalId) throws RentalNotFoundException {
+            @PathVariable("rentalId") Long rentalId) throws NotFoundException {
         Rental finishedRental = rentalService.bookHasBeenLost(rentalId);
 
         if(finishedRental != null) {
             return rentalMapper.mapToRentalDto(finishedRental);
         } else {
-            throw new RentalNotFoundException();
+            throw new NotFoundException();
         }
     }
 }

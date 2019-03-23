@@ -52,7 +52,7 @@ public class BookCopy {
     @OneToMany(
             targetEntity = Rental.class,
             fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL,
+            cascade = CascadeType.PERSIST,
             mappedBy = "bookCopy"
     )
     @Transient

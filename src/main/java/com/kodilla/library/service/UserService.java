@@ -1,7 +1,7 @@
 package com.kodilla.library.service;
 
 import com.kodilla.library.domain.User;
-import com.kodilla.library.exception.UserNotFoundException;
+import com.kodilla.library.exception.NotFoundException;
 import com.kodilla.library.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,7 +32,7 @@ public class UserService {
         userRepository.delete(id);
     }
 
-    public void payPenalties(final Long userId) throws UserNotFoundException {
+    public void payPenalties(final Long userId) throws NotFoundException {
         Optional<User> optionalUser = userRepository.findById(userId);
 
         if(optionalUser.isPresent()) {
@@ -41,7 +41,7 @@ public class UserService {
             userRepository.save(user);
 
         } else {
-            throw new UserNotFoundException();
+            throw new NotFoundException();
         }
     }
 }

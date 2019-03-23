@@ -1,7 +1,6 @@
 package com.kodilla.library.security;
 
 import com.kodilla.library.domain.Account;
-import com.kodilla.library.exception.AccountNotFoundException;
 import com.kodilla.library.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;

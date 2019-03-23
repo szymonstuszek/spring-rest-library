@@ -75,7 +75,7 @@ public class RentalService {
     }
 
     public Rental addRental(final Long userId, final Long bookCopyId) throws
-            UserNotFoundException, BookCopyNotFoundException {
+            NotFoundException, NotFoundException {
 
         Rental rental = null;
         if(isAccountActive(userId) & isBookAvailable(bookCopyId)) {
@@ -110,27 +110,27 @@ public class RentalService {
         );
     }
 
-    private boolean isBookAvailable(Long bookId) throws BookCopyNotFoundException {
+    private boolean isBookAvailable(Long bookId) throws NotFoundException {
         Optional<BookCopy> bookCopy = bookCopyRepository.findById(bookId);
 
         if(bookCopy.isPresent()) {
             return bookCopy.get().getRentalStatus().equals(RentalStatus.AVAILABLE);
         } else {
-            throw new BookCopyNotFoundException();
+            throw new NotFoundException();
         }
     }
 
-    private boolean isAccountActive(Long userId) throws UserNotFoundException {
+    private boolean isAccountActive(Long userId) throws NotFoundException {
         Optional<User> user = userRepository.findById(userId);
 
         if(user.isPresent()) {
             return user.get().isActive();
         } else {
-            throw new UserNotFoundException();
+            throw new NotFoundException();
         }
     }
 
-    public Rental returnBook(Long rentalId) throws RentalNotFoundException {
+    public Rental returnBook(Long rentalId) throws NotFoundException {
         Optional<Rental> optionalRental = rentalRepository.findById(rentalId);
 
         Rental finishedRental;
@@ -147,7 +147,7 @@ public class RentalService {
             bookCopyService.markBookStatus(returnedBookCopyId, RentalStatus.AVAILABLE);
 
         } else {
-            throw new RentalNotFoundException();
+            throw new NotFoundException();
         }
 
         return finishedRental;
@@ -195,13 +195,13 @@ public class RentalService {
         }
     }
 
-    public Rental returnDamagedBook(Long rentalId) throws RentalNotFoundException {
+    public Rental returnDamagedBook(Long rentalId) throws NotFoundException {
         Rental finishedRental = returnBook(rentalId);
         payPenalty(PENALTY_FOR_DAMAGING_A_BOOK, finishedRental, RentalStatus.DAMAGED);
         return finishedRental;
     }
 
-    public Rental bookHasBeenLost(Long rentalId) throws RentalNotFoundException {
+    public Rental bookHasBeenLost(Long rentalId) throws NotFoundException {
         Rental finishedRental = returnBook(rentalId);
         payPenalty(PENALTY_FOR_LOSING_A_BOOK, finishedRental, RentalStatus.LOST);
         return finishedRental;

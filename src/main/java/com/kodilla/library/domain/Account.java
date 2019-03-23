@@ -18,30 +18,52 @@ import java.util.Set;
         })
 })
 public class Account {
+    private Long id;
+    private String username;
+    private String email;
+    private String password;
+    private User user;
+    private Set<Role> roles = new HashSet<>();
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    public Long getId() {
+        return id;
+    }
 
     @NotBlank
     @Size(min = 4, max = 50)
-    private String username;
+    public String getUsername() {
+        return username;
+    }
 
     @NotBlank
     @Size(min = 3, max = 50)
     @Email
     @Column(name = "EMAIL")
-    private String email;
+    public String getEmail() {
+        return email;
+    }
 
     @NotBlank
     @Size(min = 6, max = 100)
-    private String password;
+    public String getPassword() {
+        return password;
+    }
+
+    @OneToOne
+    @JoinColumn(name = "USER_ID")
+    public User getUser() {
+        return user;
+    }
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "ACCOUNT_ROLES",
             joinColumns = @JoinColumn(name = "ACCOUNT_ID"),
             inverseJoinColumns = @JoinColumn(name = "ROLE_ID"))
-    private Set<Role> roles = new HashSet<>();
+    public Set<Role> getRoles() {
+        return roles;
+    }
 
     public Account() {}
 
@@ -52,43 +74,27 @@ public class Account {
         this.roles = roles;
     }
 
-    public Long getId() {
-        return id;
-    }
-
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getUsername() {
-        return username;
     }
 
     public void setUsername(String username) {
         this.username = username;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
     public void setEmail(String email) {
         this.email = email;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
+    private void setPassword(String password) {
         this.password = password;
-    }
-
-    public Set<Role> getRoles() {
-        return roles;
     }
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

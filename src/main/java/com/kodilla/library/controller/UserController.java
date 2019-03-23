@@ -2,17 +2,21 @@ package com.kodilla.library.controller;
 
 import com.kodilla.library.domain.User;
 import com.kodilla.library.domain.dto.UserDto;
-import com.kodilla.library.exception.UserNotFoundException;
+import com.kodilla.library.exception.NotFoundException;
 import com.kodilla.library.mapper.UserMapper;
 import com.kodilla.library.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
+
 @RestController
-@RequestMapping("/v1/library")
+@RequestMapping(value = "/v1/library",
+        consumes = APPLICATION_JSON_VALUE,
+        produces = APPLICATION_JSON_VALUE
+)
 @CrossOrigin("*")
 public class UserController {
 
@@ -28,17 +32,17 @@ public class UserController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "user")
-    public UserDto getUser(@RequestParam Long id) throws UserNotFoundException {
+    public UserDto getUser(@RequestParam Long id) throws NotFoundException {
         return userMapper.mapToUserDto(userService.getUser(id)
-                .orElseThrow(UserNotFoundException::new));
+                .orElseThrow(NotFoundException::new));
     }
 
-    @RequestMapping(method = RequestMethod.DELETE, value = "user")
+    @RequestMapping(method = RequestMethod.DELETE, value = "users")
     public void deleteUser(@RequestParam Long id) {
         userService.deleteUser(id);
     }
 
-    @RequestMapping(method = RequestMethod.PUT, value = "user")
+    @RequestMapping(method = RequestMethod.PUT, value = "users")
     public UserDto updateUser(@RequestBody UserDto userDto) {
         User user = userMapper.mapToUser(userDto);
         return userMapper.mapToUserDto(userService.addUser(user));
@@ -49,8 +53,8 @@ public class UserController {
         userService.addUser(userMapper.mapToUser(userDto));
     }
 
-    @RequestMapping(method = RequestMethod.PUT, value = "user-penalty")
-    public void payPenalties(@RequestParam Long userId) throws UserNotFoundException {
+    @RequestMapping(method = RequestMethod.PUT, value = "users/penalty/{userId}")
+    public void payPenalties(@PathVariable("userId") Long userId) throws NotFoundException {
         userService.payPenalties(userId);
     }
 }

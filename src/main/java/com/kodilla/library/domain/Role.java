@@ -7,13 +7,20 @@ import javax.persistence.*;
 @Table(name = "ROLES")
 public class Role {
 
+    private Long id;
+    private RoleName roleName;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    public Long getId() {
+        return id;
+    }
 
     @Enumerated(EnumType.STRING)
     @Column(name = "ROLE_NAME")
-    private RoleName roleName;
+    public RoleName getRoleName() {
+        return roleName;
+    }
 
     public Role() {}
 
@@ -21,15 +28,11 @@ public class Role {
         this.roleName = roleName;
     }
 
-    public Long getId() {
-        return id;
-    }
-
     public void setId(Long id) {
         this.id = id;
     }
 
-    public RoleName getRoleName() {
-        return roleName;
+    private void setRoleName(RoleName roleName) {
+        this.roleName = roleName;
     }
 }

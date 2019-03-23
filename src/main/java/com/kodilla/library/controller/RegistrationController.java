@@ -6,6 +6,7 @@ import com.kodilla.library.domain.enums.RoleName;
 import com.kodilla.library.domain.request.RegisterRequest;
 import com.kodilla.library.repository.AccountRepository;
 import com.kodilla.library.repository.RoleRepository;
+import com.kodilla.library.service.RegistrationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,6 +34,9 @@ public class RegistrationController {
     @Autowired
     private AccountRepository accountRepository;
 
+    @Autowired
+    private RegistrationService registrationService;
+
     @RequestMapping(method = RequestMethod.POST, value = "register")
     public ResponseEntity<?> register(@Valid @RequestBody RegisterRequest registerRequest) {
 
@@ -54,6 +58,11 @@ public class RegistrationController {
         accountRepository.save(account);
 
         return new ResponseEntity<>("Account created successfully.", HttpStatus.OK);
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "register/setup")
+    public void assignAccount(@RequestParam Long userId, @RequestParam Long accountId) {
+        registrationService.setUserForAccount(accountId, userId);
     }
 
     private Set<Role> setupUserRole() {
