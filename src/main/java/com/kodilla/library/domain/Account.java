@@ -1,6 +1,5 @@
 package com.kodilla.library.domain;
 
-import org.hibernate.annotations.NaturalId;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 
@@ -28,7 +27,6 @@ public class Account {
     @Size(min = 4, max = 50)
     private String username;
 
-    @NaturalId
     @NotBlank
     @Size(min = 3, max = 50)
     @Email

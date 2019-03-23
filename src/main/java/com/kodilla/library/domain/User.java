@@ -68,6 +68,7 @@ public class User {
             fetch = FetchType.LAZY,
             mappedBy = "user"
     )
+    @Transient
     public List<Rental> getRentals() {
         return rentals;
     }

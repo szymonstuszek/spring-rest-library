@@ -6,7 +6,6 @@ import com.kodilla.library.domain.enums.RentalStatus;
 
 
 public class BookCopyDto {
-    @JsonInclude(JsonInclude.Include.NON_NULL)
     private Long id;
     private Book book;
     private RentalStatus rentalStatus;
@@ -21,6 +20,7 @@ public class BookCopyDto {
 
     }
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     public Long getId() {
         return id;
     }

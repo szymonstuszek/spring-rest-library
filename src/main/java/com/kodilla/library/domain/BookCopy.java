@@ -55,6 +55,7 @@ public class BookCopy {
             cascade = CascadeType.ALL,
             mappedBy = "bookCopy"
     )
+    @Transient
     public List<Rental> getRentals() {
         return rentals;
     }

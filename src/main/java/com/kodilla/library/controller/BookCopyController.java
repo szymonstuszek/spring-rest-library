@@ -31,7 +31,8 @@ public class BookCopyController {
 
     @RequestMapping(method = RequestMethod.GET, value = "copy")
     public BookCopyDto getBookCopy(@RequestParam Long id) throws BookCopyNotFoundException {
-        return bookCopyMapper.mapToBookCopyDto(bookCopyService.getBookCopy(id).orElseThrow(BookCopyNotFoundException::new));
+        return bookCopyMapper.mapToBookCopyDto(bookCopyService.getBookCopy(id)
+                .orElseThrow(BookCopyNotFoundException::new));
     }
 
     @RequestMapping(method = RequestMethod.PATCH, value = "copy/available")

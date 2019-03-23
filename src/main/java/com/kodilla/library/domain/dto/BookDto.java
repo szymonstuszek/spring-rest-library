@@ -1,12 +1,10 @@
 package com.kodilla.library.domain.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.AllArgsConstructor;
-import java.util.Date;
 
 
 public class BookDto {
-    @JsonInclude(JsonInclude.Include.NON_NULL)
+
     private Long id;
     private String title;
     private String author;
@@ -20,6 +18,7 @@ public class BookDto {
 
     public BookDto() {}
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     public Long getId() {
         return id;
     }
