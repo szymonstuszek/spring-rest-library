@@ -1,7 +1,7 @@
 package com.kodilla.library.exception;
 
 public class BookCopyNotAvailableException extends Exception {
-    private String message = "Book copy not available error";
+    private String message = "Book copy is not available.";
 
     public BookCopyNotAvailableException() {
         super();

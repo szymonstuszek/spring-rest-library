@@ -15,27 +15,14 @@ import java.util.stream.Collectors;
 @Component
 public class RentalMapper {
 
-    //is this ok??
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private BookCopyRepository bookCopyRepository;
-
     public Rental mapToRental(final RentalDto rentalDto) {
-        Long userId = rentalDto.getUserId();
-        Long bookCopyId = rentalDto.getBookCopyId();
-
-        User retrievedUser = userRepository.findOne(userId);
-        BookCopy retrievedCopy = bookCopyRepository.findOne(bookCopyId);
-
         return new Rental(
                 rentalDto.getId(),
                 rentalDto.getDateOfRental(),
                 rentalDto.getDateOfReturn(),
                 rentalDto.getDueOnDate(),
-                retrievedUser,
-                retrievedCopy
+                null,
+                null
         );
     }
 

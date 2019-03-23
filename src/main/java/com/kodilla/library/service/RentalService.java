@@ -4,9 +4,7 @@ import com.kodilla.library.domain.BookCopy;
 import com.kodilla.library.domain.Rental;
 import com.kodilla.library.domain.enums.RentalStatus;
 import com.kodilla.library.domain.User;
-import com.kodilla.library.exception.BookCopyNotFoundException;
-import com.kodilla.library.exception.RentalNotFoundException;
-import com.kodilla.library.exception.UserNotFoundException;
+import com.kodilla.library.exception.*;
 import com.kodilla.library.repository.BookCopyRepository;
 import com.kodilla.library.repository.RentalRepository;
 import com.kodilla.library.repository.UserRepository;
@@ -44,8 +42,32 @@ public class RentalService {
         return rentalRepository.findById(id);
     }
 
-    public Rental updateRental(final Rental Rental) {
-        return rentalRepository.save(Rental);
+    public Rental updateRental(final Rental rental, Long userId, Long bookCopyId)
+            throws UserNotActiveException , BookCopyNotAvailableException {
+        Optional<User> optionalUser = userRepository.findById(userId);
+
+        if(optionalUser.isPresent()) {
+            User userToUpdate = optionalUser.get();
+            if(userToUpdate.isActive()) {
+                rental.setUser(userToUpdate);
+            } else {
+                throw new UserNotActiveException();
+            }
+        }
+
+        Optional<BookCopy> optionalBookCopy = bookCopyRepository.findById(bookCopyId);
+
+        if(optionalBookCopy.isPresent()) {
+            BookCopy bookCopyToUpdate = optionalBookCopy.get();
+            //book copy is not in an active rental
+            if(bookCopyToUpdate.getRentalStatus().equals(RentalStatus.AVAILABLE)) {
+                rental.setBookCopy(bookCopyToUpdate);
+            } else {
+                throw new BookCopyNotAvailableException();
+            }
+        }
+
+        return rentalRepository.save(rental);
     }
 
     public void deleteRental(final Long id) {

@@ -1,11 +1,10 @@
 package com.kodilla.library.controller;
 
+import com.kodilla.library.domain.BookCopy;
 import com.kodilla.library.domain.Rental;
+import com.kodilla.library.domain.User;
 import com.kodilla.library.domain.dto.RentalDto;
-import com.kodilla.library.exception.BookCopyNotFoundException;
-import com.kodilla.library.exception.RentalNotFoundException;
-import com.kodilla.library.exception.RentalNotPossibleException;
-import com.kodilla.library.exception.UserNotFoundException;
+import com.kodilla.library.exception.*;
 import com.kodilla.library.mapper.RentalMapper;
 import com.kodilla.library.service.RentalService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,9 +40,15 @@ public class RentalController {
     }
 
     @RequestMapping(method = RequestMethod.PUT, value = "rental")
-    public RentalDto updateRental(@RequestBody RentalDto rentalDto) {
+    public RentalDto updateRental(@RequestBody RentalDto rentalDto)
+            throws UserNotActiveException, BookCopyNotAvailableException {
         Rental rental = rentalMapper.mapToRental(rentalDto);
-        return rentalMapper.mapToRentalDto(rentalService.updateRental(rental));
+
+        Long userId = rentalDto.getUserId();
+        Long bookCopyId = rentalDto.getBookCopyId();
+        Rental updatedRental = rentalService.updateRental(rental, userId, bookCopyId);
+
+        return rentalMapper.mapToRentalDto(updatedRental);
     }
 
     //void or RentalDto?

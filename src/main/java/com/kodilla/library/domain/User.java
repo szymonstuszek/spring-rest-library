@@ -1,8 +1,5 @@
 package com.kodilla.library.domain;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -71,7 +68,6 @@ public class User {
             fetch = FetchType.LAZY,
             mappedBy = "user"
     )
-    @JsonIgnore
     public List<Rental> getRentals() {
         return rentals;
     }
