@@ -2,9 +2,9 @@
 
 
 
-![alt text](https://github.com/szymonstuszek/spring-rest-library/blob/master/src/main/resources/screens/library2.png)
-![alt text](https://github.com/szymonstuszek/spring-rest-library/blob/master/src/main/resources/screens/library3.png)
-![alt text](https://github.com/szymonstuszek/spring-rest-library/blob/master/src/main/resources/screens/library4.png)
+![alt text](https://github.com/szymonstuszek/spring-rest-library/blob/master/src/main/resources/screens/library2.PNG)
+![alt text](https://github.com/szymonstuszek/spring-rest-library/blob/master/src/main/resources/screens/library3.PNG)
+![alt text](https://github.com/szymonstuszek/spring-rest-library/blob/master/src/main/resources/screens/library4.PNG)
 
 
 
